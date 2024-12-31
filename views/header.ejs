@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nodepop</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/CSS/styles.css">
+    <link rel="stylesheet" href="/CSS/stylespinner.css">
+    <script type="module" src="/js/navigation.js" defer></script>
+    <script type="module" src="/js/requests.js" defer></script>
+
 </head>
 <body>
     <!-- Navbar -->
@@ -74,28 +78,4 @@
         
     </nav>
    
-    <script>
-        function updatePagination() {
-            const limit = document.getElementById('records-per-page').value;
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('limit', limit);
-            urlParams.set('page', 1); 
-            window.location.search = urlParams.toString();
-        }
     
-        function goToPage(page) {
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('page', page);
-            window.location.search = urlParams.toString();
-        }
-    
-        function updateSorting() {
-            const sort = document.getElementById('sort').value;
-            const direction = document.getElementById('direction').value;
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('sort', sort);
-            urlParams.set('direction', direction);
-            urlParams.set('page', 1); 
-            window.location.search = urlParams.toString();
-        }
-    </script>

@@ -35,8 +35,12 @@ app.use(sessionManager.middleware, sessionManager.useSessionInViews)
 
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.urlencoded())
-app.use('/', express.static('public'))
+app.use(express.urlencoded({ extended: false })) 
+//app.use('/', express.static('public'))
+app.use(express.static('public'))
+//app.use(express.static(path.join(__dirname, 'public')));
+//app.use(cookieParser())
+    
 app.all('/logout', headerController.logout)
 
 

@@ -39,8 +39,7 @@
                        
                         <p class="product-number">Producto <%= (currentPage - 1) * recordsPerPage + index + 1 %> de <%= totalRecords %></p>
                         
-                        <img src="<%= product.picture %>" alt="Foto del producto" class="product-image" 
-     onerror="this.onerror=null;this.src='/imagen.jpg';">
+                        <img src="/uploads/<%= product.picture %>" alt="Foto del producto" class="product-image" onerror="this.onerror=null;this.src='/uploads/imagen.jpg';">
                         
                         <div class="product-details">
                             <h4 class="product-name"><%= product.product %></h4>
@@ -59,6 +58,11 @@
                 <% }) %>
             </section>
     </div>
+</div>
+
+<div id="spinner" class="spinner" style="display: none;">
+    <div class="spinner-circle"></div>
+    <span class="spinner-text">Cargando registros...</span>
 </div>
 
 <%- include('footer.ejs') %>
