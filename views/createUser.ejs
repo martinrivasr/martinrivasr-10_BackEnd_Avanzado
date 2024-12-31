@@ -1,0 +1,23 @@
+<%- include ('header.ejs') %>
+
+<div class="register-form-container">
+    <h2>Crear una Cuenta</h2>
+    <form class="register-form" method="POST" action="/create-user"> <!-- Agrega el método y la acción -->
+        <label for="username">Nombre de usuario:</label>
+        <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" placeholder="Nombre completo" required>
+
+        <label for="country">País:</label>
+        <input type="text" id="country" name="country" placeholder="País" required>
+
+        <button type="submit" class="submit-btn">Registrarse</button>
+    </form>
+    <p class="login-link">¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a></p>
+</div>
+
+<%- include ('footer.ejs') %>

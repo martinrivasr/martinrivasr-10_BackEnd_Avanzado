@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodepop</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="/">Nodepop.!!!</a>
+            
+            <div class="pagination-controls">
+                <div class="records-per-page">
+                    <label for="records-per-page">Registros por página:</label>
+                    <select id="records-per-page" name="limit" onchange="updatePagination()">
+                        <option value="25" <%= (typeof recordsPerPage !== 'undefined' ? recordsPerPage : 25) === 25 ? 'selected' : '' %>>25</option>
+                        <option value="50" <%= (typeof recordsPerPage !== 'undefined' ? recordsPerPage : 25) === 50 ? 'selected' : '' %>>50</option>
+                        <option value="75" <%= (typeof recordsPerPage !== 'undefined' ? recordsPerPage : 25) === 75 ? 'selected' : '' %>>75</option>
+                    </select>
+                </div>
+        
+                <div class="sort-by">
+                    <label for="sort">Ordenar por:</label>
+                    <select id="sort" name="sort" onchange="updateSorting()">
+                        <option value="product" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'product' ? 'selected' : '' %>>Nombre</option>
+                        <option value="precio" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'precio' ? 'selected' : '' %>>Precio</option>
+                        <option value="createdAt" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'createdAt' ? 'selected' : '' %>>Fecha de creación</option>
+                        <option value="owner" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'owner' ? 'selected' : '' %>>Usuario</option>
+                        <option value="tags" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'tags' ? 'selected' : '' %>>Tags</option>
+                    </select>
+                </div>
+        
+                <div class="sort-direction">
+                    <label for="direction">Dirección:</label>
+                    <select id="direction" name="direction" onchange="updateSorting()">
+                        <option value="asc" <%= (typeof direction !== 'undefined' ? direction : 'asc') === 'asc' ? 'selected' : '' %>>Ascendente</option>
+                        <option value="desc" <%= (typeof direction !== 'undefined' ? direction : 'asc') === 'desc' ? 'selected' : '' %>>Descendente</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="page-controls">
+                <button class="page-btn" <%= (typeof currentPage !== 'undefined' ? currentPage : 1) === 1 ? 'disabled' : '' %> onclick="goToPage(<%= (typeof currentPage !== 'undefined' ? currentPage : 1) - 1 %>)">« Anterior</button>
+                <span class="page-info">Página <%= typeof currentPage !== 'undefined' ? currentPage : 1 %> de <%= typeof totalPages !== 'undefined' ? totalPages : 1 %></span>
+                <button class="page-btn" <%= (typeof currentPage !== 'undefined' ? currentPage : 1) === (typeof totalPages !== 'undefined' ? totalPages : 1) ? 'disabled' : '' %> onclick="goToPage(<%= (typeof currentPage !== 'undefined' ? currentPage : 1) + 1 %>)">Siguiente »</button>
+            </div>
+        
+            <div class="total-records">
+                Total de registros: <%= typeof totalRecords !== 'undefined' ? totalRecords : 0 %>
+            </div>
+        
+            <div class="account-menu">
+                <span class="username-label">Hola <%= session.userName %> bienvenido</span>
+                <% if(session.userID) { %>
+                    <a href="/logout">Logout</a>
+                <% } else { %>
+                    <a href="/login">login</a>
+                <% } %>
+                
+                <div class="dropdown">
+                    <button class="dropbtn">Mi cuenta</button>
+                    <div class="dropdown-content">
+                        <a href="/user-data">Configuración</a>
+                        <a href="/user-items">Mis productos</a>
+                        <a href="/create-item">Alta de producto</a>
+                        <a href="#">Salir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </nav>
+   
+    <script>
+        function updatePagination() {
+            const limit = document.getElementById('records-per-page').value;
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('limit', limit);
+            urlParams.set('page', 1); 
+            window.location.search = urlParams.toString();
+        }
+    
+        function goToPage(page) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', page);
+            window.location.search = urlParams.toString();
+        }
+    
+        function updateSorting() {
+            const sort = document.getElementById('sort').value;
+            const direction = document.getElementById('direction').value;
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sort', sort);
+            urlParams.set('direction', direction);
+            urlParams.set('page', 1); 
+            window.location.search = urlParams.toString();
+        }
+    </script>

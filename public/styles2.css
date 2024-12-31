@@ -1,0 +1,428 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: #f8f9fa;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.search-form button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #218838;
+}
+
+.account-menu {
+    display: flex;
+    align-items: center;
+}
+
+.account-menu a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+.account-menu .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.account-menu .dropbtn {
+    background-color: #218838;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.account-menu .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.account-menu .dropdown-content a {
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.account-menu .dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.account-menu .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.main-layout {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filters {
+    width: 20%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    flex-shrink: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+}
+
+.filters-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filters-form label {
+    font-size: 16px;
+    color: #333;
+}
+
+.filters-form input,
+.filters-form select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filters-form button {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filters-form button:hover {
+    background-color: #218838;
+}
+
+.product {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.product-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.product-details {
+    flex-grow: 1;
+}
+
+.product-name {
+    font-size: 22px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-owner,
+.product-price {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.product-tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    width: 200px;
+}
+
+.pagination label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.pagination select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.page-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-btn {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.page-btn:hover {
+    background-color: #0056b3;
+}
+
+.page-info {
+    font-size: 16px;
+    color: #333;
+}
+
+.page-controls .page-info {
+    margin: 0 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.product-form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.product-form-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.product-form label {
+    font-size: 16px;
+    color: #333;
+}
+
+.product-form input[type="text"],
+.product-form input[type="number"],
+.product-form input[type="file"] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.tag-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag-options label {
+    font-size: 14px;
+    color: #555;
+}
+
+.submit-btn {
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+.username-label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.buy-btn, .delete-btn {
+    padding: 8px 16px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buy-btn {
+    background-color: #28a745;
+}
+
+.buy-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.user-form-container, .login-form-container, .register-form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.login-link, .register-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-link a, .register-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link a:hover, .register-link a:hover {
+    text-decoration: underline;
+}
+
+
+<form class="filters-form">
+<h2>Filtrar productos</h2>
+<label for="tag">Tag:</label>
+<select id="tag" name="tag">
+    <option value="todos">Todos</option>
+    <option value="work">Work</option>
+    <option value="lifestyle">Lifestyle</option>
+    <option value="motor">Motor</option>
+    <option value="mobile">Mobile</option>
+</select>
+
+<label for="min-price">Precio mínimo:</label>
+<input type="number" id="min-price" name="min-price" value="0">
+
+<label for="max-price">Precio máximo:</label>
+<input type="number" id="max-price" name="max-price" value="1000">
+
+<label for="product-name">Nombre del producto:</label>
+<input type="text" id="product-name" name="product-name" placeholder="Comienza por...">
+
+<button type="submit">Aplicar filtros</button>
+
+
+</form>

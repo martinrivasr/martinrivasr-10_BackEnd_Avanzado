@@ -1,0 +1,64 @@
+<%- include('header.ejs') %>
+
+<div class="main-layout">
+
+    <div class="layout-content">
+       
+        <aside class="filters">
+            <form class="filters-form">
+                <h2>Filtrar productos</h2>
+                <label for="tag">Tag:</label>
+                <select id="tag" name="tag">
+                    <option value="todos" <%= tag === 'todos' ? 'selected' : '' %>>Todos</option>
+                    <option value="work" <%= tag === 'work' ? 'selected' : '' %>>Work</option>
+                    <option value="lifestyle" <%= tag === 'lifestyle' ? 'selected' : '' %>>Lifestyle</option>
+                    <option value="motor" <%= tag === 'motor' ? 'selected' : '' %>>Motor</option>
+                    <option value="mobile" <%= tag === 'mobile' ? 'selected' : '' %>>Mobile</option>
+                </select>
+
+                <label for="min-price">Precio mínimo:</label>
+                <input type="number" id="min-price" name="min-price" value="<%= minPrice %>">
+
+                <label for="max-price">Precio máximo:</label>
+                <input type="number" id="max-price" name="max-price" value="<%= maxPrice %>">
+
+                <label for="product-name">Nombre del producto:</label>
+                <input type="text" id="product-name" name="product-name" value="<%= productName %>">
+
+                <button type="submit">Aplicar filtros</button>
+            </form>
+
+           
+            <p>userid: <%= session.userID  %></a></p>
+        </aside>
+
+
+            <section class="content">
+                <% products.forEach((product, index) => { %>
+                    <div class="product">
+                       
+                        <p class="product-number">Producto <%= (currentPage - 1) * recordsPerPage + index + 1 %> de <%= totalRecords %></p>
+                        
+                        <img src="<%= product.picture %>" alt="Foto del producto" class="product-image" 
+     onerror="this.onerror=null;this.src='/imagen.jpg';">
+                        
+                        <div class="product-details">
+                            <h4 class="product-name"><%= product.product %></h4>
+                            <p class="product-owner">Propietario: <%= product.owner.name %></p>
+                            <p class="product-price">Precio: $<%= product.precio %></p>
+                            <div class="product-tags">
+                                <% product.tags.forEach(tag => { %>
+                                    <span class="tag"><%= tag.tagname %></span>
+                                <% }) %>
+                            </div>
+                            <div class="product-actions">
+                                <button class="buy-btn">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </section>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>

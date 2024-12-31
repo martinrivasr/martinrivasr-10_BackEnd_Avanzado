@@ -1,0 +1,26 @@
+<%- include('header.ejs', {
+    recordsPerPage: 25,
+    currentPage: 1,
+    totalPages: 1,
+    totalRecords: 0,
+    sort: 'product',
+    direction: 'asc',
+    session: session || {}
+}) %>
+
+<div class="login-form-container">
+    <h2>Iniciar Sesión</h2>
+    <form class="login-form" method="POST">
+        <label for="username">Nombre de usuario:</label>
+        <input type="text" id="username" name="email" value="<%= email %>" placeholder="Nombre de usuario" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+
+        <button type="submit" class="submit-btn">Iniciar Sesión</button>
+    </form>
+    <p class="register-link">¿No tienes una cuenta? <a href="/create-user">Regístrate aquí</a></p>
+    <p class="login-error"><%= error %></p>
+</div>
+
+<%- include('footer.ejs') %>

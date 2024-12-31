@@ -1,0 +1,21 @@
+
+    <%- include ('header.ejs') %>
+      <div class="user-form-container">
+        <h2>Ver/Editar Mis Datos</h2>
+        <form class="user-form">
+            <label for="username">Nombre de usuario:</label>
+            <input type="text" id="username" name="username" placeholder="Nombre de usuario" disabled>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" placeholder="Nombre">
+
+            <label for="country">País:</label>
+            <input type="text" id="country" name="country" placeholder="País">
+
+            <button type="submit" class="submit-btn">Guardar Cambios</button>
+        </form>
+    </div>
+    <%- include ('footer.ejs') %>

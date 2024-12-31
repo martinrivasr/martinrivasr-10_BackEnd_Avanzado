@@ -1,0 +1,38 @@
+    <%- include ('header.ejs') %>
+    <!-- Main content for user's products -->
+    <div class="main-layout">
+        
+        <section class="content">
+            <p>userid: <%= session.userID  %></a></p>
+            <% if(!session.userID) { %>
+                <p>Para ver el contenido debe hacer <a href="/login">login</a></p>
+            <% } %>
+
+            <% if(session.userID) { %>
+                <% products.forEach(product => { %>
+                    <div class="product">
+                         <img src="<%= product.picture %>" alt="Foto del producto" class="product-image" 
+     onerror="this.onerror=null;this.src='/imagen.jpg';">
+                        <div class="product-details">
+                            <h4 class="product-name"><%= product.product %></h4>
+                            <p class="product-owner">Propietario: <%= product.owner.name %></p>
+                            <p class="product-price">Precio: $<%= product.precio %></p>
+                            <div class="product-tags">
+                                <% product.tags.forEach(tag => { %>
+                                    <span class="tag"><%= tag.tagname %></span>
+                                <% }) %>
+                            </div>
+                            <div class="product-actions">
+                                <button class="buy-btn">Comprar</button>
+                                <button class="delete-btn"><a href="/product/delete/<%= product.id %>">Borrar</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+
+
+        </section>
+        </div>
+    </div>
+    <%- include ('footer.ejs') %>
