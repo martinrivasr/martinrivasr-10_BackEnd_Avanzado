@@ -1,7 +1,7 @@
 <%- include ('header.ejs') %>
     <div class="product-form-container">
         <h2>Dar de Alta un Producto</h2>
-        <form class="product-form" method="POST">
+        <form class="product-form" method="POST" enctype="multipart/form-data">
             <!-- Product Name -->
             <label for="product-name">Nombre del producto:</label>
             <input type="text" id="product-name" name="product" placeholder="Nombre del producto" required>

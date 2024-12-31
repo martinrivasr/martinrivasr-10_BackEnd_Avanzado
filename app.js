@@ -13,7 +13,7 @@ import connectMongoose from './lib/DBConection.js';
 import * as sessionManager from './lib/sessionManager.js'
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './swaggerConfig.js';
-
+import upload from './lib/uploadImage.js'
 
 
 await connectMongoose()
@@ -221,7 +221,7 @@ app.get('/user-data', userDataController.index);
  *       401:
  *         description: No autorizado.
  */
-app.post('/create-item', sessionManager.isLogged, createItemController.postNew);
+app.post('/create-item', upload.single('picture'), sessionManager.isLogged, createItemController.postNew);
 
 /**
  * @swagger

@@ -13,13 +13,7 @@ const productSchema = new Schema({
         required: true,
     },
     picture: {
-        type: String,
-        validate: {
-            validator: function(v) {
-                return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-            },
-            message: props => `${props.value} no es una URL válida!`
-        }
+        type: String
     },
     tags:[{
         type: Schema.Types.ObjectId,

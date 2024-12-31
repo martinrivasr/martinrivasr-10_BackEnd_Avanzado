@@ -11,6 +11,7 @@ export async function postNew(req, res, next) {
     try {
       const userId = req.session.userID
 
+      console.log(req.file)
       const { product, precio, picture, tags } = req.body;
       const pictureUrl = `http://localhost:3000/uploads/${picture}`; 
       const tagIds = await Tag.find({ tagname: { $in: tags } }).select('_id'); 
@@ -18,7 +19,7 @@ export async function postNew(req, res, next) {
       const newProduct  = new Product({
         product,
         precio,
-        picture: pictureUrl, 
+        picture: req.file.filename, 
         tags: tagObjectIds,
         owner: userId
       })

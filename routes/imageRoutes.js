@@ -9,3 +9,6 @@ router.post('/upload', upload.single('imagen'), (req, res) => {
 });
 
 export default router;
+
+
+export const __dirname = import.meta.dirname
