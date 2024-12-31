@@ -1,8 +1,8 @@
-
+import 'dotenv/config'
 import http from 'node:http'
 import debugLib from 'debug'
 import app from './app.js'
-import 'dotenv/config'
+
 
 const debug = debugLib('nodeapp:server')
 

@@ -61,6 +61,13 @@ Nodepop es una aplicación web desarrollada para la venta de artículos de segun
 
 Crea un archivo `.env` en la raíz del proyecto con la configuración para MongoDB y otras variables necesarias, como `PORT` y `CLOUDINARY_URL` ( se deja la condiguracion para utilizar  Cloudinary para el manejo de imágenes una vez que se despliegue el proyecto).
 
+## .env
+
+en la primer llamada del programa, se debe de confirar el archivo .env.example con las variables de entorno requeridas.
+
+```js
+copy .env.example .env
+```
 ## Inicialización de la Base de Datos
 
 Para inicializar la base de datos con datos de ejemplo, ejecuta el script `initDB.js` que eliminará las colecciones existentes y cargará nuevos datos de ejemplo.

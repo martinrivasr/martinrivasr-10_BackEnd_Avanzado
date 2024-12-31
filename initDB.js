@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Chance from 'chance';
 import bcrypt from 'bcrypt';
 import readline from 'node:readline'
