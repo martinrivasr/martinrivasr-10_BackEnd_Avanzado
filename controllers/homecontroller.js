@@ -71,6 +71,8 @@ export async function index(req, res, next) {
         });
 
         res.locals.session = req.session;
+        console.log('Antes de renderizar');
+
         res.render('home', { 
             products, 
             tag, 
@@ -84,8 +86,12 @@ export async function index(req, res, next) {
             sort,
             direction: req.query.direction || 'asc'
         });
+        console.log('Después de renderizar');
+        
     } catch (error) {
         console.error('Error obteniendo productos:', error);
-        res.status(500).send('Error obteniendo productos');
+        if (!res.headersSent) {
+            res.status(500).send('Error obteniendo productos');
+        }
     }
 }

@@ -579,3 +579,21 @@ body {
     text-decoration: underline;
 }
 
+.language-selector {
+    display: flex;
+    align-items: center;
+}
+
+.language-selector img {
+    width: 50px;
+    height: auto;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.language-selector img:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
+}
+
+

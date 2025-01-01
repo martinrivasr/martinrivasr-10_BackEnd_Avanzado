@@ -1,5 +1,6 @@
 import express from 'express'
 import logger from 'morgan'
+import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
 import imageRoutes from './routes/imageRoutes.js'
 import * as homeController  from './controllers/homecontroller.js'
@@ -14,7 +15,8 @@ import * as sessionManager from './lib/sessionManager.js'
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './swaggerConfig.js';
 import upload from './lib/uploadImage.js'
-
+import i18n from './lib/i18nConfigure.js'
+import * as langController from './controllers/langController.js'
 
 await connectMongoose()
 
@@ -27,22 +29,20 @@ app.set('views','views') // views folder
 app.set('view engine', 'ejs')
 
 
-
-
-//app.use(logger('dev'))
-//app.use(logger('dev'))
-app.use(sessionManager.middleware, sessionManager.useSessionInViews)
-
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false })) 
-//app.use('/', express.static('public'))
 app.use(express.static('public'))
-//app.use(express.static(path.join(__dirname, 'public')));
-//app.use(cookieParser())
-    
-app.all('/logout', headerController.logout)
+app.use(cookieParser())
 
+// API routes
+
+
+// Website routes
+
+app.use(sessionManager.middleware, sessionManager.useSessionInViews)
+app.use(i18n.init)
+app.get('/change-locale/:locale', langController.changeLocale)
 
 // Configuración de Swagger como middleware
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

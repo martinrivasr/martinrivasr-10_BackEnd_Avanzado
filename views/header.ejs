@@ -18,7 +18,7 @@
             
             <div class="pagination-controls">
                 <div class="records-per-page">
-                    <label for="records-per-page">Registros por página:</label>
+                    <label for="records-per-page"><%= __('Registros por página:') %></label>
                     <select id="records-per-page" name="limit" onchange="updatePagination()">
                         <option value="25" <%= (typeof recordsPerPage !== 'undefined' ? recordsPerPage : 25) === 25 ? 'selected' : '' %>>25</option>
                         <option value="50" <%= (typeof recordsPerPage !== 'undefined' ? recordsPerPage : 25) === 50 ? 'selected' : '' %>>50</option>
@@ -27,37 +27,43 @@
                 </div>
         
                 <div class="sort-by">
-                    <label for="sort">Ordenar por:</label>
+                    <label for="sort"><%= __('Sort by: ') %></label>
                     <select id="sort" name="sort" onchange="updateSorting()">
-                        <option value="product" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'product' ? 'selected' : '' %>>Nombre</option>
-                        <option value="precio" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'precio' ? 'selected' : '' %>>Precio</option>
-                        <option value="createdAt" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'createdAt' ? 'selected' : '' %>>Fecha de creación</option>
-                        <option value="owner" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'owner' ? 'selected' : '' %>>Usuario</option>
+                        <option value="product" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'product' ? 'selected' : '' %>><%= __('Nombre') %></option>
+                        <option value="precio" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'precio' ? 'selected' : '' %>><%= __('Precio')%></option>
+                        <option value="createdAt" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'createdAt' ? 'selected' : '' %>><%= __('Fecha de creación')%></option>
+                        <option value="owner" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'owner' ? 'selected' : '' %>><%=__('Usuario') %></option>
                         <option value="tags" <%= (typeof sort !== 'undefined' ? sort : 'product') === 'tags' ? 'selected' : '' %>>Tags</option>
                     </select>
                 </div>
         
                 <div class="sort-direction">
-                    <label for="direction">Dirección:</label>
+                    <label for="direction"><%= __('Order')%></label>
                     <select id="direction" name="direction" onchange="updateSorting()">
-                        <option value="asc" <%= (typeof direction !== 'undefined' ? direction : 'asc') === 'asc' ? 'selected' : '' %>>Ascendente</option>
-                        <option value="desc" <%= (typeof direction !== 'undefined' ? direction : 'asc') === 'desc' ? 'selected' : '' %>>Descendente</option>
+                        <option value="asc" <%= (typeof direction !== 'undefined' ? direction : 'asc') === 'asc' ? 'selected' : '' %>><%= __('Ascendente') %></option>
+                        <option value="desc" <%= (typeof direction !== 'undefined' ? direction : 'asc') === 'desc' ? 'selected' : '' %>><%= __('Descendente') %></option>
                     </select>
                 </div>
             </div>
         
             <div class="page-controls">
-                <button class="page-btn" <%= (typeof currentPage !== 'undefined' ? currentPage : 1) === 1 ? 'disabled' : '' %> onclick="goToPage(<%= (typeof currentPage !== 'undefined' ? currentPage : 1) - 1 %>)">« Anterior</button>
+                <button class="page-btn" <%= (typeof currentPage !== 'undefined' ? currentPage : 1) === 1 ? 'disabled' : '' %> onclick="goToPage(<%= (typeof currentPage !== 'undefined' ? currentPage : 1) - 1 %>)"><%= __('« Anterior') %></button>
                 <span class="page-info">Página <%= typeof currentPage !== 'undefined' ? currentPage : 1 %> de <%= typeof totalPages !== 'undefined' ? totalPages : 1 %></span>
-                <button class="page-btn" <%= (typeof currentPage !== 'undefined' ? currentPage : 1) === (typeof totalPages !== 'undefined' ? totalPages : 1) ? 'disabled' : '' %> onclick="goToPage(<%= (typeof currentPage !== 'undefined' ? currentPage : 1) + 1 %>)">Siguiente »</button>
+                <button class="page-btn" <%= (typeof currentPage !== 'undefined' ? currentPage : 1) === (typeof totalPages !== 'undefined' ? totalPages : 1) ? 'disabled' : '' %> onclick="goToPage(<%= (typeof currentPage !== 'undefined' ? currentPage : 1) + 1 %>)"><%= __('Siguiente »') %></button>
             </div>
         
             <div class="total-records">
-                Total de registros: <%= typeof totalRecords !== 'undefined' ? totalRecords : 0 %>
+                <%= __('Total de registros:') %> <%= typeof totalRecords !== 'undefined' ? totalRecords : 0 %>
             </div>
-        
+            <div class="language-selector">
+                <% getLocales().forEach(lang => { %>
+                  <a href="/change-locale/<%= lang %>">
+                    <img src="/flags/<%= lang %>.svg" alt="<%= lang %>">
+                 </a>  
+                <% }) %>
+            </div>
             <div class="account-menu">
-                <span class="username-label">Hola <%= session.userName %> bienvenido</span>
+                <span class="username-label"><%= __('Hello :')  %><%= session.userName %> <%= __(' Bienvenido!')  %></span>
                 <% if(session.userID) { %>
                     <a href="/logout">Logout</a>
                 <% } else { %>
@@ -65,12 +71,12 @@
                 <% } %>
                 
                 <div class="dropdown">
-                    <button class="dropbtn">Mi cuenta</button>
+                    <button class="dropbtn"><%= __('Mi cuenta') %></button>
                     <div class="dropdown-content">
-                        <a href="/user-data">Configuración</a>
-                        <a href="/user-items">Mis productos</a>
-                        <a href="/create-item">Alta de producto</a>
-                        <a href="#">Salir</a>
+                        <a href="/user-data"><%= __('Mi Perfil') %></a>
+                        <a href="/user-items"><%= __('Mis productos') %></a>
+                        <a href="/create-item"><%= __('Alta de prpoducto') %></a>
+                        <a href="#"><%= __('Salir') %></a>
                     </div>
                 </div>
             </div>
