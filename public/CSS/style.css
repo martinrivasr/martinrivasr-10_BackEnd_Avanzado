@@ -26,10 +26,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px; /* Espaciado entre elementos */
+    flex-wrap: wrap; /* Permitir que los elementos se acomoden si no hay espacio */
 }
 
 .navbar-brand {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     color: #333;
     text-decoration: none;
@@ -64,13 +66,14 @@ body {
 .account-menu {
     display: flex;
     align-items: center;
+
 }
 
 .account-menu a {
     color: #007bff;
     text-decoration: none;
     margin-right: 15px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .account-menu .dropdown {
@@ -159,14 +162,14 @@ body {
 .filters-form input,
 .filters-form select {
     padding: 8px;
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
 .filters-form button {
     padding: 10px;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
     background-color: #28a745;
     border: none;
@@ -202,7 +205,7 @@ body {
 }
 
 .product-name {
-    font-size: 22px;
+    font-size: 20px;
     color: #333;
     font-weight: bold;
     margin-bottom: 10px;
@@ -210,7 +213,7 @@ body {
 
 .product-owner,
 .product-price {
-    font-size: 18px;
+    font-size: 16px;
     color: #666;
     margin-bottom: 5px;
 }
@@ -226,8 +229,10 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     margin-right: 5px;
-    font-size: 14px;
+    font-size: 12px;
 }
+
+
 
 .pagination {
     position: sticky;
@@ -246,6 +251,9 @@ body {
     gap: 20px; /* Espacio entre filtros y contenido */
 }
 
+
+
+
 .pagination label {
     font-size: 16px;
     color: #333;
@@ -254,15 +262,17 @@ body {
 
 .pagination select {
     padding: 5px 10px;
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 
 .page-controls {
     display: flex;
     align-items: center;
     gap: 10px;
+    
 }
 
 .page-btn {
@@ -280,7 +290,7 @@ body {
 }
 
 .page-info {
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
 }
 
@@ -290,6 +300,10 @@ body {
     color: #555;
 }
 
+.total-records{
+
+    font-size: 14px;
+}
 .product-form-container {
     margin-top: 40px;
     max-width: 600px;
@@ -315,7 +329,7 @@ body {
 }
 
 .product-form label {
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
 }
 
@@ -323,7 +337,7 @@ body {
 .product-form input[type="number"],
 .product-form input[type="file"] {
     padding: 8px;
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -356,7 +370,7 @@ body {
 }
 
 .username-label {
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
     margin-right: 15px;
     font-weight: bold;
@@ -415,14 +429,14 @@ body {
 }
 
 .user-form label {
-    font-size: 16px;
+    font-size: 14px;
     color: #333;
 }
 
 .user-form input[type="text"],
 .user-form input[type="password"] {
     padding: 8px;
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -582,10 +596,12 @@ body {
 .language-selector {
     display: flex;
     align-items: center;
+    
+
 }
 
 .language-selector img {
-    width: 50px;
+    width: 40px;
     height: auto;
     margin: 0 5px;
     cursor: pointer;
@@ -595,5 +611,3 @@ body {
 .language-selector img:hover {
     transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
 }
-
-

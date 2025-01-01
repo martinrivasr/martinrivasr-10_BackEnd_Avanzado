@@ -1,0 +1,115 @@
+
+.records-per-page,
+.sort-by,
+.sort-direction {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el label y el select */
+    margin-right: 15px; /* Separación entre controles */
+
+}
+
+.records-per-page label,
+.sort-by label,
+.sort-direction label {
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+.records-per-page select,
+.sort-by select,
+.sort-direction select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.records-per-page select:hover,
+.sort-by select:hover,
+.sort-direction select:hover {
+    border-color: #007bff;
+    box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.5);
+}
+
+.records-per-page select:focus,
+.sort-by select:focus,
+.sort-direction select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.75);
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 15px; /* Espaciado entre los bloques */
+    justify-content: flex-start;
+    align-items: flex-start; /* Alineación en la parte superior */
+}
+
+.records-per-page, .sort-by, .sort-direction {
+    display: flex;
+    flex-direction: column; /* Etiquetas arriba, contenido abajo */
+    align-items: center;
+    text-align: center;
+}
+
+.records-per-page label, .sort-by label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px; /* Espacio entre el label y el select */
+}
+
+.records-per-page select, .sort-by select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.sort-direction {
+    display: flex;
+    gap: 10px; /* Espaciado entre los íconos */
+    align-items: center;
+}
+
+.sort-icon {
+    width: 35px; /* Aumentar tamaño */
+    height: 35px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.sort-icon:hover {
+    transform: scale(1.2); /* Efecto de zoom al pasar el cursor */
+}
+.total-records {
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    font-size: 14px; /* Tamaño uniforme */
+    color: #333;
+    margin-top: 10px;
+}
+
+.pagination-controls, .page-controls, .total-records, .language-selector, .account-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.account-menu {
+    margin-left: auto; /* Empuja los elementos de la cuenta al extremo derecho */
+    display: flex;
+    align-items: center;
+}
+.username-label {
+    font-size: 14px;
+    margin-right: 10px; /* Espacio entre el saludo y los enlaces */
+    white-space: nowrap; /* Evita que el texto dinámico salte de línea */
+}

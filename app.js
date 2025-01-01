@@ -149,7 +149,7 @@ app.get('/create-user', createUserController.index);
  *       400:
  *         description: Error en los datos proporcionados.
  */
-app.post('/create-user', createUserController.registerUser);
+app.post('/create-user', sessionManager.isLogged, createUserController.registerUser);
 
 /**
  * @swagger
@@ -161,7 +161,7 @@ app.post('/create-user', createUserController.registerUser);
  *       200:
  *         description: Formulario de creación de producto mostrado correctamente.
  */
-app.get('/create-item', createItemController.index);
+app.get('/create-item', sessionManager.isLogged, createItemController.index);
 
 /**
  * @swagger
@@ -175,7 +175,7 @@ app.get('/create-item', createItemController.index);
  *       401:
  *         description: No autorizado.
  */
-app.get('/user-items', userItemController.index);
+app.get('/user-items', sessionManager.isLogged, userItemController.index);
 
 /**
  * @swagger
@@ -189,7 +189,7 @@ app.get('/user-items', userItemController.index);
  *       401:
  *         description: No autorizado.
  */
-app.get('/user-data', userDataController.index);
+app.get('/user-data', sessionManager.isLogged,userDataController.index);
 
 // Rutas privadas (requieren autenticación)
 

@@ -43,17 +43,17 @@ function updatePagination() {
 window.updatePagination = updatePagination;
 
 // actualizar el sort
-function updateSorting() {
-    showSpinner(); //
-    const sort = document.getElementById('sort').value;
-    const direction = document.getElementById('direction').value;
+function updateSorting(direction) {
+    showSpinner(); 
+    const sort = document.getElementById('sort').value; 
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('sort', sort);
-    urlParams.set('direction', direction);
-    urlParams.set('page', 1);
-    window.location.search = urlParams.toString();
+    urlParams.set('direction', direction); 
+    urlParams.set('page', 1); 
+    window.location.search = urlParams.toString(); s
 }
 window.updateSorting = updateSorting;
+
 
 
 export { updatePagination, goToPage, updateSorting, showSpinner, hideSpinner };

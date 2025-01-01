@@ -55,5 +55,9 @@
 	"Cargando registros....": "Loading records....",
 	"Precio máximo:": "Max Price: ",
 	"Nombre del producto:": "Product: ",
-	"Hello :": "Hello :"
+	"Hello :": "Hello :",
+	"Ordenar por:": "Order by:",
+	"Total de registros": "Records by page",
+	"Ordenar por": "Order by",
+	"Registros por página": "Registros por página"
 }
