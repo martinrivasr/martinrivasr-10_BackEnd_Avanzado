@@ -16,14 +16,13 @@ import * as sessionManager from './lib/sessionManager.js'
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './middlewares/swaggerConfig.js';
 import swaggermiddleware from './middlewares/swaggermiddleware.js'
-
 import upload from './lib/uploadImage.js'
 import i18n from './lib/i18nConfigure.js'
 import * as langController from './controllers/langController.js'
-
 import * as apiProductController from './controllers/apicontrollers/apiProductController.js'
 import { validateFilters } from './middlewares/filtersMiddleware.js'
-
+import * as apiLoginController from './controllers/apicontrollers/apiLoginController.js'
+import * as jwtAuth from './middlewares/jwtAuthMiddleware.js'
 
 await connectMongoose()
 
@@ -44,12 +43,14 @@ app.use(cookieParser())
 
 // API routes
 
-app.get('/api/products', validateFilters,  apiProductController.productList)
-app.get('/api/products/:productId',  apiProductController.productListbyProductID)
-app.get('/api/products/user/:userId',  apiProductController.productListbyUserID)
-app.post('/api/products', upload.single('picture'), apiProductController.productCreation)
-app.put('/api/products/:productId', upload.single('picture'), apiProductController.productUpdate)
-app.delete('/api/products/:productId',  apiProductController.productDelete)
+app.post('/api/login', apiLoginController.loginJWT)
+
+app.get('/api/products', jwtAuth.guard, validateFilters,  apiProductController.productList)
+app.get('/api/products/:productId', jwtAuth.guard,  apiProductController.productListbyProductID)
+app.get('/api/products/user/:userId', jwtAuth.guard,  apiProductController.productListbyUserID)
+app.post('/api/products', jwtAuth.guard, upload.single('picture'), apiProductController.productCreation)
+app.put('/api/products/:productId', jwtAuth.guard, upload.single('picture'), apiProductController.productUpdate)
+app.delete('/api/products/:productId', jwtAuth.guard,  apiProductController.productDelete)
 
 // Website routes
 
