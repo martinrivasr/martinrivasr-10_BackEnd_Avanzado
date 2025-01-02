@@ -86,7 +86,8 @@ export async function index(req, res, next) {
             sort,
             direction: req.query.direction || 'asc'
         });
-        console.log('Después de renderizar');
+        
+        return console.log('Después de renderizar');
         
     } catch (error) {
         console.error('Error obteniendo productos:', error);

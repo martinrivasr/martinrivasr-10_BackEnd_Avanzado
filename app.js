@@ -18,6 +18,9 @@ import upload from './lib/uploadImage.js'
 import i18n from './lib/i18nConfigure.js'
 import * as langController from './controllers/langController.js'
 
+import * as apiProductController from './controllers/apicontrollers/apiProductController.js'
+import { validateFilters } from './middlewares/filtersMiddleware.js'
+
 await connectMongoose()
 
 const app = express()
@@ -31,12 +34,15 @@ app.set('view engine', 'ejs')
 
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false })) 
+app.use(express.urlencoded({ extended: true })) 
 app.use(express.static('public'))
 app.use(cookieParser())
 
 // API routes
 
+app.get('/api/products', validateFilters,  apiProductController.productList)
+app.get('/api/products/:productId',  apiProductController.productListOne)
+app.post('/api/products', upload.single('picture'), apiProductController.productCreation)
 
 // Website routes
 
@@ -253,7 +259,7 @@ app.get('/product/delete/:productId', sessionManager.isLogged, userItemControlle
 // Manejo de errores
 app.use((req, res, next) => {
     next(createError(404));
-    res.render('error');
+    
 });
 
 app.use((err, req, res, next) => {
@@ -265,7 +271,14 @@ app.use((err, req, res, next) => {
         err.status = 422;
     }
     res.status(err.status || 500);
+    //API errors send response with JSON
+    if(req.url.startsWith('/api/')){
+        res.json({ error:err.message })
+        return
+    }
+
     // Configuración de variables locales, solo proporcionando error en desarrollo
+
     res.locals.message = err.message;
     res.locals.error = process.env.NODEAPP_ENV === 'development' ? err : {};
 
