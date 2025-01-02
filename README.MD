@@ -159,6 +159,15 @@ Get api/products/:productId
 ## productlist by User ID
 Get api/products/user/:userId
 
+## create a product
+Post /api/products
+
+## update a product
+Put /api/products/:productId
+
+## Delete a product
+Delete /api/products/:productId
+
 ## Uso
 
 ### Paginación y Filtros
