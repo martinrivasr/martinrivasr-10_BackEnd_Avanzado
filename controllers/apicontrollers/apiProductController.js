@@ -61,9 +61,10 @@ export async function productList(req, res, next) {
     }
 }
 
-export async function productListOne(req, res, next){
+export async function productListbyProductID(req, res, next){
     const productId = req.params.productId
-    
+    const fields = req.query.fields ? req.query.fields.split(',').join(' ') : [];
+
     if (!mongoose.Types.ObjectId.isValid(productId)) {
         return res.status(400).json({ error: 'Invalid product ID format' });
     }
@@ -71,6 +72,8 @@ export async function productListOne(req, res, next){
     console.log("product id : ", productId)
 
     const product = await Product.findById(productId)
+        .select(fields)
+        .lean();
 
     if (!product) {
         return res.status(404).json({ error: 'Product not found' });
@@ -81,26 +84,49 @@ export async function productListOne(req, res, next){
     })
 }
 
+export async function productListbyUserID(req, res, next){
+    const userId = req.params.userId
+    const fields = req.query.fields ? req.query.fields.split(',').join(' ') : [];
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ error: 'Invalid User ID format' });
+    }
+
+    const ProductByUser = await Product.find({ owner: userId})
+        .select(fields)
+        .lean();
+
+    // total record count
+    const totalRecords = ProductByUser.length;
+
+
+    
+    if (!ProductByUser) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json ({
+        result: ProductByUser,
+        totalRecords,
+    })
+}
+
 export async function productCreation(req, res, next) {
     try {
      //const userId = req.session.userID
      const  userId=  '6730e5270cc9c61c0e489375'
-     console.log('req.body:', req.body); // Logs del cuerpo de la petición
-     console.log('User ID:', userId); // Logs del cuerpo de la petición
-     console.log('req.file:', req.file); // Logs del archivo subido (si existe)
-     console.log('req.headers:', req.headers); // Logs de los encabezados
-     console.log('req.contentType:', req.headers['content-type']);
-      const { product, precio, picture, tags,  } = req.body;
-      if (tags.length === 0) {
+      
+     const { product, precio, picture, tags,  } = req.body;
+      if (!tags || tags.length === 0) {
         return res.status(400).json({ error: 'Al menos un tag proporcionado no es válido.' });
-    }    
-
+        }    
       const tagObjectIds = (await Tag.find({ tagname: { $in: tags.split(',') } }).select('_id')).map(tag => tag._id);
       const picturePath = req.file ? req.file.filename : 'imagen.jpg'
+
       const newProduct  = new Product({
         product,
         precio,
-        picture: req.file.filename, 
+        picture: picturePath,
         tags: tagObjectIds,
         owner: userId
       })
@@ -109,14 +135,9 @@ export async function productCreation(req, res, next) {
         if (!userExists) {
             return res.status(400).json({ error: 'El usuario especificado no existe.' });
         }
-        console.log('Owner ID:', userId);
-        console.log('Tags:', tagObjectIds);
-        console.log('Picture:', picturePath);
-        console.log('newProduct', newProduct)
       
       const ProductSaved = await newProduct .save()
 
-      console.log('ya grabe')
       res.status(201).json({ result: ProductSaved})
 
     } catch (err) {
@@ -124,3 +145,55 @@ export async function productCreation(req, res, next) {
         res.status(500).json({ error: 'Error al crear el producto', details: err.message });
     }
   }
+
+export async function productUpdate(req, res, next){
+    try {
+        const productId = req.params.productId
+        const { product, precio, picture, tags,  } = req.body;
+
+      
+        //  if (!tags || tags.length === 0) {
+         // return res.status(400).json({ error: 'Al menos un tag proporcionado no es válido.' });
+        //  }    
+        let productData = {}
+
+          if (tags) {
+            const tagObjectIds = (await Tag.find({ tagname: { $in: Array.isArray(tags) ? tags : tags.split(',') } })
+            .select('_id')).map(tag => tag._id);
+            productData.tags = tagObjectIds;
+          }
+        
+          if (req.file) productData.picture = req.file.filename;
+          if (product) productData.product = product;
+          if (precio) productData.precio = precio;
+        
+
+        const updateProduct = await Product.findByIdAndUpdate(productId, productData, {
+            new: true
+        })
+
+        if (!updateProduct) {
+            return res.status(404).json({ error: 'Producto no encontrado.' });
+        }
+
+        res.json({ result: updateProduct })
+       
+
+    } catch (err) {
+        console.error('Error al actualizar el producto:', err);
+        res.status(500).json({ error: 'Error al actualizar el producto', details: err.message });
+    }
+}
+
+export async function productDelete(req, res, next){
+    try {
+        const productId = req.params.productId
+
+        await Product.deleteOne({ _id: productId })
+
+        res.json()
+    } catch (error) {
+        next(error)
+    }
+    
+}

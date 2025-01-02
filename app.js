@@ -41,8 +41,11 @@ app.use(cookieParser())
 // API routes
 
 app.get('/api/products', validateFilters,  apiProductController.productList)
-app.get('/api/products/:productId',  apiProductController.productListOne)
+app.get('/api/products/:productId',  apiProductController.productListbyProductID)
+app.get('/api/products/user/:userId',  apiProductController.productListbyUserID)
 app.post('/api/products', upload.single('picture'), apiProductController.productCreation)
+app.put('/api/products/:productId', upload.single('picture'), apiProductController.productUpdate)
+app.delete('/api/products/:productId',  apiProductController.productDelete)
 
 // Website routes
 

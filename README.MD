@@ -95,6 +95,70 @@ el password por defecto para todos los usuarios es :"password123"
 - `views/` - Plantillas EJS para el renderizado de páginas.
 - `swaggerConfig.js` - Configuración de Swagger para la documentación de la API.
 
+## API
+base URL: http://localhost:3000/api
+
+### product List
+Get /api/products
+
+```json
+        {
+            "_id": "6730e5270cc9c61c0e48937b",
+            "product": "Auriculares",
+            "precio": 117,
+            "picture": "https://example.com/producto0-1.jpg",
+            "tags": [
+                {
+                    "_id": "6730e5260cc9c61c0e489368",
+                    "tagname": "mobile",
+                    "__v": 0,
+                    "createdAt": "2024-11-10T16:53:58.983Z",
+                    "updatedAt": "2024-11-10T16:53:58.983Z"
+                }
+            ],
+            "owner": {
+                "_id": "6730e5270cc9c61c0e48936a",
+                "email": "liiwci@pugre.er",
+                "name": "Ann Reeves",
+                "password": "$2b$10$6fhjTDJYtmDHJDfmJbl0oOQxY5GNVgiP2.PLvXdsBJsKoihnKWLuS",
+                "country": "New Caledonia",
+                "__v": 0,
+                "createdAt": "2024-11-10T16:53:59.216Z",
+                "updatedAt": "2024-11-10T16:53:59.216Z"
+            },
+            "__v": 0,
+            "createdAt": "2024-11-10T16:53:59.505Z",
+            "updatedAt": "2024-11-10T16:53:59.505Z"
+        }
+```
+### Create list
+Get /api/products
+
+```json
+{
+    "result": {
+        "product": "monitor",
+        "precio": 9999,
+        "picture": "picture-1735783499930-monitor.jpg",
+        "tags": [
+            "6730e5260cc9c61c0e489367",
+            "6730e5260cc9c61c0e489365"
+        ],
+        "owner": "6730e5270cc9c61c0e489375",
+        "_id": "6775f44bfb5a62e345ed45df",
+        "createdAt": "2025-01-02T02:05:00.044Z",
+        "updatedAt": "2025-01-02T02:05:00.044Z",
+        "__v": 0
+    }
+}
+```
+
+## productlist by product ID
+Get api/products/:productId
+
+## productlist by User ID
+Get api/products/user/:userId
+
 ## Uso
 
 ### Paginación y Filtros
