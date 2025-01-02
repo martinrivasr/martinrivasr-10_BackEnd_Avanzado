@@ -45,12 +45,12 @@ app.use(cookieParser())
 
 app.post('/api/login', apiLoginController.loginJWT)
 
-app.get('/api/products', jwtAuth.guard, validateFilters,  apiProductController.productList)
-app.get('/api/products/:productId', jwtAuth.guard,  apiProductController.productListbyProductID)
-app.get('/api/products/user/:userId', jwtAuth.guard,  apiProductController.productListbyUserID)
-app.post('/api/products', jwtAuth.guard, upload.single('picture'), apiProductController.productCreation)
-app.put('/api/products/:productId', jwtAuth.guard, upload.single('picture'), apiProductController.productUpdate)
-app.delete('/api/products/:productId', jwtAuth.guard,  apiProductController.productDelete)
+app.get('/api/products', jwtAuth.authenticateJWT , validateFilters,  apiProductController.productList)
+app.get('/api/products/:productId', jwtAuth.authenticateJWT ,  apiProductController.productListbyProductID)
+app.get('/api/products/user/:userId', jwtAuth.authenticateJWT ,  apiProductController.productListbyUserID)
+app.post('/api/products', jwtAuth.authenticateJWT , upload.single('picture'), apiProductController.productCreation)
+app.put('/api/products/:productId', jwtAuth.authenticateJWT , upload.single('picture'), apiProductController.productUpdate)
+app.delete('/api/products/:productId', jwtAuth.authenticateJWT ,  apiProductController.productDelete)
 
 // Website routes
 

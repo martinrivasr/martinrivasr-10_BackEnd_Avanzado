@@ -8,7 +8,7 @@ import { buildSortCriteria } from '../../Utils/sortCriteria.js';
 
 export async function productList(req, res, next) {
     try {
-
+        console.log('El usuario logado es: ', req.apiUserId)
         // query template : http://localhost:3000/api/products/?tag=todos&min-price=&max-price=&product-name=Lap
         //http://localhost:3000/api/products/?tag=lifestyle&min-price=100&max-price=900&product-name=producto&sort=precio&direction=desc&page=1
 

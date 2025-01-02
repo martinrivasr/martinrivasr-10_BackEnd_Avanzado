@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken'
 import createError from 'http-errors'
 
-export function guard(req, res, next){
+export function authenticateJWT(req, res, next){
 
     const tokenJWT = req.get('Authorization')?.replace('Bearer ', '') || req.body.jwt || req.query.jwt;
 
     
-    if(!tockenJWT){
-        next(createError(401, "No tocken provided"))
+    if(!tokenJWT){
+        next(createError(401, "No token provided"))
         return
     }
 
@@ -16,9 +16,11 @@ export function guard(req, res, next){
             next(createError(401, 'Invalid token'))
             return;
         }
-        console.log(paylod)
-        req.apiUserId = paylod._id
         
+        console.log(paylod)
+        console.log(req)
+        req.apiUserId = paylod._id
+
         next()
     })
 }
