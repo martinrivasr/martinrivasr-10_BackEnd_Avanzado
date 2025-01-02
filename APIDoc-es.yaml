@@ -1,0 +1,264 @@
+openapi: 3.0.3
+info:
+  title: API de Nodepop
+  description: |
+    Nodepop es una API diseñada para gestionar productos, usuarios y etiquetas en una plataforma de comercio.
+    Esta API proporciona operaciones CRUD para productos, admite la gestión de imágenes, aplica filtros,
+    y permite consultas por usuario.
+
+    **Características**:
+    - Filtros avanzados para buscar productos por precio, nombre y etiquetas.
+    - Paginación y ordenamiento para grandes conjuntos de datos.
+    - Gestión de usuarios y sus productos asociados.
+    - Soporte para subir imágenes de productos.
+
+    **Ejemplo de uso**:
+    - Obtener productos filtrados: `/api/products?tag=lifestyle&min-price=100&max-price=900`.
+    - Crear un nuevo producto enviando datos en el cuerpo de la solicitud.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+paths:
+  /api/products:
+    get:
+      summary: Retrieve a list of products
+      description: Retrieve a list of products based on filters, pagination, and sorting criteria.
+      parameters:
+        - in: query
+          name: tag
+          schema:
+            type: string
+          description: Filter products by tag.
+        - in: query
+          name: min-price
+          schema:
+            type: number
+          description: Minimum price of products.
+        - in: query
+          name: max-price
+          schema:
+            type: number
+          description: Maximum price of products.
+        - in: query
+          name: product-name
+          schema:
+            type: string
+          description: Filter products by name.
+        - in: query
+          name: sort
+          schema:
+            type: string
+          description: Field to sort by.
+        - in: query
+          name: direction
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Sort direction.
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number for pagination.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Number of products per page.
+        - in: query
+          name: fields
+          schema:
+            type: string
+          description: Fields to include in the response, comma-separated.
+      responses:
+        '200':
+          description: List of products.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  totalRecords:
+                    type: integer
+                    description: Total number of products.
+                  totalPages:
+                    type: integer
+                    description: Total number of pages.
+                  currentPage:
+                    type: integer
+                    description: Current page number.
+    post:
+      summary: Create a new product
+      description: Add a new product to the database.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: string
+                  description: Name of the product.
+                precio:
+                  type: number
+                  description: Price of the product.
+                picture:
+                  type: string
+                  format: binary
+                  description: Product image.
+                tags:
+                  type: string
+                  description: Comma-separated list of tags.
+      responses:
+        '201':
+          description: Product created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /api/products/{productId}:
+    get:
+      summary: Retrieve a product by ID
+      description: Get the details of a specific product by its ID.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+          description: ID of the product.
+      responses:
+        '200':
+          description: Product details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found.
+    put:
+      summary: Update a product by ID
+      description: Update the details of an existing product.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+          description: ID of the product.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: string
+                  description: Updated name of the product.
+                precio:
+                  type: number
+                  description: Updated price of the product.
+                picture:
+                  type: string
+                  format: binary
+                  description: Updated product image.
+                tags:
+                  type: string
+                  description: Comma-separated list of updated tags.
+      responses:
+        '200':
+          description: Product updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found.
+    delete:
+      summary: Delete a product by ID
+      description: Remove a product from the database using its ID.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+          description: ID of the product.
+      responses:
+        '200':
+          description: Product deleted successfully.
+        '404':
+          description: Product not found.
+
+  /api/products/user/{userId}:
+    get:
+      summary: Retrieve products by user ID
+      description: Get a list of products created by a specific user.
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user.
+        - in: query
+          name: fields
+          schema:
+            type: string
+          description: Fields to include in the response, comma-separated.
+      responses:
+        '200':
+          description: List of products by user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  totalRecords:
+                    type: integer
+                    description: Total number of products by the user.
+        '404':
+          description: User not found.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        product:
+          type: string
+          description: Name of the product.
+        precio:
+          type: number
+          description: Price of the product.
+        picture:
+          type: string
+          description: URL or path of the product image.
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the product.
+        owner:
+          type: string
+          description: ID of the user who owns the product.
+        createdAt:
+          type: string
+          format: date-time
+          description: Product creation timestamp.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Product last update timestamp.

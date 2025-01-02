@@ -59,7 +59,7 @@ app.use(i18n.init)
 app.get('/change-locale/:locale', langController.changeLocale)
 
 // Configuración de Swagger como middleware
-app.use('/api-doc-swagger-doc', swaggermiddleware);
+app.use('/api-doc', swaggermiddleware);
 //app.use('/api-doc-swagger-api', swaggerUi.serve, swaggerUi.setup(specs));
                     
 // Rutas públicas

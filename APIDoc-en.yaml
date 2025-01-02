@@ -1,10 +1,8 @@
 openapi: 3.0.3
 info:
   title: Nodepop API
-  description: >
-    Nodepop is an API designed to manage products, users, and tags in a commerce platform.  
-    This API provides CRUD operations for products, supports image handling, applies filters,  
-    and allows queries by user.
+  description: |
+    Nodepop is an API designed to manage products, users, and tags in a commerce platform. This API provides CRUD operations for products, supports image handling, applies filters, and allows queries by user.
 
     **Features**:  
     - Advanced filters to search products by price, name, and tags.  
@@ -15,6 +13,7 @@ info:
     **Example Usage**:  
     - Get filtered products: `/api/products?tag=lifestyle&min-price=100&max-price=900`.  
     - Create a new product by sending data in the request body.
+    
   version: 1.0.0
 servers:
   - url: http://localhost:3000
