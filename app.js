@@ -1,4 +1,5 @@
 import express from 'express'
+import path from 'path'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
@@ -13,13 +14,16 @@ import * as userDataController from './controllers/userDataController.js'
 import connectMongoose from './lib/DBConection.js';
 import * as sessionManager from './lib/sessionManager.js'
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './swaggerConfig.js';
+import { specs } from './middlewares/swaggerConfig.js';
+import swaggermiddleware from './middlewares/swaggermiddleware.js'
+
 import upload from './lib/uploadImage.js'
 import i18n from './lib/i18nConfigure.js'
 import * as langController from './controllers/langController.js'
 
 import * as apiProductController from './controllers/apicontrollers/apiProductController.js'
 import { validateFilters } from './middlewares/filtersMiddleware.js'
+
 
 await connectMongoose()
 
@@ -51,212 +55,32 @@ app.delete('/api/products/:productId',  apiProductController.productDelete)
 
 app.use(sessionManager.middleware, sessionManager.useSessionInViews)
 app.use(i18n.init)
+
 app.get('/change-locale/:locale', langController.changeLocale)
 
 // Configuración de Swagger como middleware
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
+app.use('/api-doc-swagger-doc', swaggermiddleware);
+//app.use('/api-doc-swagger-api', swaggerUi.serve, swaggerUi.setup(specs));
+                    
 // Rutas públicas
 
-/**
- * @swagger
- * /logout:
- *   all:
- *     summary: Cerrar sesión
- *     description: Cierra la sesión del usuario.
- *     responses:
- *       200:
- *         description: Sesión cerrada correctamente.
- */
+
 app.all('/logout', headerController.logout);
-
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Página de inicio
- *     description: Muestra la página principal con los productos.
- *     responses:
- *       200:
- *         description: Página principal cargada correctamente.
- */
 app.get('/', homeController.index);
-
-/**
- * @swagger
- * /login:
- *   get:
- *     summary: Formulario de inicio de sesión
- *     description: Muestra el formulario para iniciar sesión.
- *     responses:
- *       200:
- *         description: Formulario de login mostrado correctamente.
- */
 app.get('/login', loginController.index);
-
-/**
- * @swagger
- * /login:
- *   post:
- *     summary: Iniciar sesión
- *     description: Autentica al usuario y crea una sesión.
- *     requestBody:
- *       required: true
- *       content:
- *         application/x-www-form-urlencoded:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Inicio de sesión exitoso.
- *       401:
- *         description: Credenciales inválidas.
- */
 app.post('/login', loginController.postLogin);
-
-/**
- * @swagger
- * /create-user:
- *   get:
- *     summary: Formulario de registro
- *     description: Muestra el formulario para crear un nuevo usuario.
- *     responses:
- *       200:
- *         description: Formulario de registro mostrado correctamente.
- */
 app.get('/create-user', createUserController.index);
-
-/**
- * @swagger
- * /create-user:
- *   post:
- *     summary: Registro de usuario
- *     description: Crea un nuevo usuario en el sistema.
- *     requestBody:
- *       required: true
- *       content:
- *         application/x-www-form-urlencoded:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *               name:
- *                 type: string
- *               country:
- *                 type: string
- *     responses:
- *       200:
- *         description: Usuario creado exitosamente.
- *       400:
- *         description: Error en los datos proporcionados.
- */
 app.post('/create-user', sessionManager.isLogged, createUserController.registerUser);
-
-/**
- * @swagger
- * /create-item:
- *   get:
- *     summary: Formulario de creación de producto
- *     description: Muestra el formulario para crear un nuevo producto.
- *     responses:
- *       200:
- *         description: Formulario de creación de producto mostrado correctamente.
- */
 app.get('/create-item', sessionManager.isLogged, createItemController.index);
-
-/**
- * @swagger
- * /user-items:
- *   get:
- *     summary: Productos del usuario
- *     description: Muestra los productos pertenecientes al usuario logueado.
- *     responses:
- *       200:
- *         description: Lista de productos del usuario mostrada correctamente.
- *       401:
- *         description: No autorizado.
- */
 app.get('/user-items', sessionManager.isLogged, userItemController.index);
 
-/**
- * @swagger
- * /user-data:
- *   get:
- *     summary: Datos del usuario
- *     description: Muestra los datos del usuario logueado.
- *     responses:
- *       200:
- *         description: Datos del usuario mostrados correctamente.
- *       401:
- *         description: No autorizado.
- */
+
 app.get('/user-data', sessionManager.isLogged,userDataController.index);
 
 // Rutas privadas (requieren autenticación)
 
-/**
- * @swagger
- * /create-item:
- *   post:
- *     summary: Crear un nuevo producto
- *     description: Crea un nuevo producto en el sistema.
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               product:
- *                 type: string
- *               precio:
- *                 type: number
- *               tags:
- *                 type: array
- *                 items:
- *                   type: string
- *               picture:
- *                 type: string
- *                 format: binary
- *     responses:
- *       200:
- *         description: Producto creado exitosamente.
- *       400:
- *         description: Error en los datos proporcionados.
- *       401:
- *         description: No autorizado.
- */
 app.post('/create-item', upload.single('picture'), sessionManager.isLogged, createItemController.postNew);
 
-/**
- * @swagger
- * /product/delete/{productId}:
- *   get:
- *     summary: Eliminar producto
- *     description: Elimina un producto del usuario logueado.
- *     parameters:
- *       - in: path
- *         name: productId
- *         required: true
- *         schema:
- *           type: string
- *         description: ID del producto a eliminar
- *     responses:
- *       200:
- *         description: Producto eliminado exitosamente.
- *       401:
- *         description: No autorizado.
- *       404:
- *         description: Producto no encontrado.
- */
 app.get('/product/delete/:productId', sessionManager.isLogged, userItemController.deleteProduct);
 
 // Manejo de errores

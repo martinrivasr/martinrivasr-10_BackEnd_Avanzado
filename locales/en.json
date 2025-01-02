@@ -59,5 +59,9 @@
 	"Ordenar por:": "Order by:",
 	"Total de registros": "Records by page",
 	"Ordenar por": "Order by",
-	"Registros por página": "Registros por página"
+	"Registros por página": "Registros por página",
+	"API Documentation": "API Documentation",
+	"API Swagger Doc": "API Swagger Doc",
+	"API Redoc": "API Redoc",
+	"API Swagger Doc links": "API Swagger Doc links"
 }
