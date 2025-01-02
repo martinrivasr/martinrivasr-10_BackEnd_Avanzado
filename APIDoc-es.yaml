@@ -22,58 +22,58 @@ servers:
 paths:
   /api/products:
     get:
-      summary: Retrieve a list of products
-      description: Retrieve a list of products based on filters, pagination, and sorting criteria.
+      summary: Obtener una lista de productos
+      description: Recuperar una lista de productos basada en filtros, paginación y criterios de ordenamiento.
       parameters:
         - in: query
           name: tag
           schema:
             type: string
-          description: Filter products by tag.
+          description: Filtrar productos por etiqueta.
         - in: query
           name: min-price
           schema:
             type: number
-          description: Minimum price of products.
+          description: Precio mínimo de los productos.
         - in: query
           name: max-price
           schema:
             type: number
-          description: Maximum price of products.
+          description: Precio máximo de los productos.
         - in: query
           name: product-name
           schema:
             type: string
-          description: Filter products by name.
+          description: Filtrar productos por nombre.
         - in: query
           name: sort
           schema:
             type: string
-          description: Field to sort by.
+          description: Campo por el cual ordenar.
         - in: query
           name: direction
           schema:
             type: string
             enum: [asc, desc]
-          description: Sort direction.
+          description: Dirección del orden.
         - in: query
           name: page
           schema:
             type: integer
-          description: Page number for pagination.
+          description: Número de página para la paginación.
         - in: query
           name: limit
           schema:
             type: integer
-          description: Number of products per page.
+          description: Cantidad de productos por página.
         - in: query
           name: fields
           schema:
             type: string
-          description: Fields to include in the response, comma-separated.
+          description: Campos a incluir en la respuesta, separados por comas.
       responses:
         '200':
-          description: List of products.
+          description: Lista de productos.
           content:
             application/json:
               schema:
@@ -85,16 +85,16 @@ paths:
                       $ref: '#/components/schemas/Product'
                   totalRecords:
                     type: integer
-                    description: Total number of products.
+                    description: Número total de productos.
                   totalPages:
                     type: integer
-                    description: Total number of pages.
+                    description: Número total de páginas.
                   currentPage:
                     type: integer
-                    description: Current page number.
+                    description: Número de página actual.
     post:
-      summary: Create a new product
-      description: Add a new product to the database.
+      summary: Crear un nuevo producto
+      description: Agregar un nuevo producto a la base de datos.
       requestBody:
         required: true
         content:
@@ -104,20 +104,20 @@ paths:
               properties:
                 product:
                   type: string
-                  description: Name of the product.
+                  description: Nombre del producto.
                 precio:
                   type: number
-                  description: Price of the product.
+                  description: Precio del producto.
                 picture:
                   type: string
                   format: binary
-                  description: Product image.
+                  description: Imagen del producto.
                 tags:
                   type: string
-                  description: Comma-separated list of tags.
+                  description: Lista de etiquetas separadas por comas.
       responses:
         '201':
-          description: Product created successfully.
+          description: Producto creado exitosamente.
           content:
             application/json:
               schema:
@@ -125,34 +125,34 @@ paths:
 
   /api/products/{productId}:
     get:
-      summary: Retrieve a product by ID
-      description: Get the details of a specific product by its ID.
+      summary: Obtener un producto por ID
+      description: Obtener los detalles de un producto específico por su ID.
       parameters:
         - in: path
           name: productId
           required: true
           schema:
             type: string
-          description: ID of the product.
+          description: ID del producto.
       responses:
         '200':
-          description: Product details.
+          description: Detalles del producto.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
         '404':
-          description: Product not found.
+          description: Producto no encontrado.
     put:
-      summary: Update a product by ID
-      description: Update the details of an existing product.
+      summary: Actualizar un producto por ID
+      description: Actualizar los detalles de un producto existente.
       parameters:
         - in: path
           name: productId
           required: true
           schema:
             type: string
-          description: ID of the product.
+          description: ID del producto.
       requestBody:
         required: true
         content:
@@ -162,61 +162,61 @@ paths:
               properties:
                 product:
                   type: string
-                  description: Updated name of the product.
+                  description: Nombre actualizado del producto.
                 precio:
                   type: number
-                  description: Updated price of the product.
+                  description: Precio actualizado del producto.
                 picture:
                   type: string
                   format: binary
-                  description: Updated product image.
+                  description: Imagen actualizada del producto.
                 tags:
                   type: string
-                  description: Comma-separated list of updated tags.
+                  description: Lista actualizada de etiquetas separadas por comas.
       responses:
         '200':
-          description: Product updated successfully.
+          description: Producto actualizado exitosamente.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
         '404':
-          description: Product not found.
+          description: Producto no encontrado.
     delete:
-      summary: Delete a product by ID
-      description: Remove a product from the database using its ID.
+      summary: Eliminar un producto por ID
+      description: Eliminar un producto de la base de datos usando su ID.
       parameters:
         - in: path
           name: productId
           required: true
           schema:
             type: string
-          description: ID of the product.
+          description: ID del producto.
       responses:
         '200':
-          description: Product deleted successfully.
+          description: Producto eliminado exitosamente.
         '404':
-          description: Product not found.
+          description: Producto no encontrado.
 
   /api/products/user/{userId}:
     get:
-      summary: Retrieve products by user ID
-      description: Get a list of products created by a specific user.
+      summary: Obtener productos por ID de usuario
+      description: Obtener una lista de productos creados por un usuario específico.
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: string
-          description: ID of the user.
+          description: ID del usuario.
         - in: query
           name: fields
           schema:
             type: string
-          description: Fields to include in the response, comma-separated.
+          description: Campos a incluir en la respuesta, separados por comas.
       responses:
         '200':
-          description: List of products by user.
+          description: Lista de productos por usuario.
           content:
             application/json:
               schema:
@@ -228,9 +228,9 @@ paths:
                       $ref: '#/components/schemas/Product'
                   totalRecords:
                     type: integer
-                    description: Total number of products by the user.
+                    description: Número total de productos por usuario.
         '404':
-          description: User not found.
+          description: Usuario no encontrado.
 
 components:
   schemas:
@@ -239,26 +239,26 @@ components:
       properties:
         product:
           type: string
-          description: Name of the product.
+          description: Nombre del producto.
         precio:
           type: number
-          description: Price of the product.
+          description: Precio del producto.
         picture:
           type: string
-          description: URL or path of the product image.
+          description: URL o ruta de la imagen del producto.
         tags:
           type: array
           items:
             type: string
-          description: Tags associated with the product.
+          description: Etiquetas asociadas al producto.
         owner:
           type: string
-          description: ID of the user who owns the product.
+          description: ID del usuario que posee el producto.
         createdAt:
           type: string
           format: date-time
-          description: Product creation timestamp.
+          description: Fecha de creación del producto.
         updatedAt:
           type: string
           format: date-time
-          description: Product last update timestamp.
+          description: Fecha de última actualización del producto.
