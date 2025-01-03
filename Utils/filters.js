@@ -1,8 +1,9 @@
 import Tag from "../models/tag.js";
+import User from "../models/users.js";
 
 export async function buildFilters(query){
     const filters = {};
-    const { tag, 'min-price': minPrice, 'max-price': maxPrice, 'product-name': productName } = query;
+    const { tag, 'min-price': minPrice, 'max-price': maxPrice, 'product-name': productName, 'user-name': user } = query;
 
 
     if (tag && tag !== 'todos') {
@@ -20,5 +21,16 @@ export async function buildFilters(query){
    
     if (productName) filters.product = new RegExp('^' + productName, 'i');
     
+    if (user) {
+        const userId = await User.findOne({ name: { $regex: `^${user}`, $options: 'i' } });
+    
+        if (userId) {
+            filters.owner = userId._id;
+        } else {
+            console.error('User not found.');
+        }
+    }
+
+
     return filters;
 }

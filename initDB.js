@@ -6,13 +6,15 @@ import connectMoongose from './lib/DBConection.js'
 import User from './models/users.js'
 import Product from './models/products.js'
 import Tag from './models/tag.js'
+import fs from 'fs';
+import path from 'path';
 
 const chance = new Chance();
-
 const connection = await connectMoongose()
 console.log('Connected to MongoDB: ', connection.name)
 
 const questionResponse = await ask('Are you sure you wnat to empty the database and create inistial data?')
+
 
 if (questionResponse.toLowerCase() !== 'yes'){
     console.log('Operation aborted.')
@@ -22,6 +24,24 @@ if (questionResponse.toLowerCase() !== 'yes'){
 
 const initializeDB = async () => {
     try { 
+
+        function obtenerExtensionImagen(nombreProducto) {
+            const imageDir = path.join(process.cwd(), 'public/images'); // Usa process.cwd() para rutas absolutas
+            const archivos = fs.readdirSync(imageDir); // Leer archivos en el directorio
+        
+            // Buscar el archivo correspondiente
+            const archivoEncontrado = archivos.find(archivo => 
+                path.basename(archivo, path.extname(archivo)) === nombreProducto.replace(/ /g, '_')
+            );
+        
+            // Si se encuentra el archivo, devolver su extensión
+            if (archivoEncontrado) {
+                return path.extname(archivoEncontrado); // Devuelve la extensión, e.g., '.jpeg'
+            } else {
+                return "https://example.com/producto.jpg";
+            }
+        }
+        
 
         //delete all users
         const deleteUsers = await User.deleteMany();
@@ -41,26 +61,26 @@ const initializeDB = async () => {
             { tagname: 'mobile'},
         ]);
 
+
+        const insertResult = await User.insertMany([
+            {email: 'admin@example.com', name: 'admin', password: await bcrypt.hash('1234', 10), country: 'test'},
+            {email: 'user1@example.com', name: 'user1', password: await bcrypt.hash('1234', 10), country: 'test'},
+            {email: 'user2@example.com', name: 'user2', password: await bcrypt.hash('1234', 10), country: 'test'},
+            {email: 'user3@example.com', name: 'user3', password: await bcrypt.hash('1234', 10), country: 'test'},
+        ])
+
          // Create random users with hashed passwords
         const users = await Promise.all(
             Array.from({ length: 10 }).map(async () => ({
                 email: chance.email(),
                 name: chance.name(),
-                password: await bcrypt.hash('password123', 10), // Hashing password
+                password: await bcrypt.hash('1234', 10), // Hashing password
                 country: chance.country({ full: true }),
             }))
         );
 
 
-        const insertedUsers = await User.insertMany(users)
-
-        const insertResult = await User.insertMany([
-            {email: 'admin@example.com', name: 'admin', password: await bcrypt.hash('password123', 10), country: 'test'},
-            {email: 'user1@example.com', name: 'user1', password: await bcrypt.hash('password123', 10), country: 'test'},
-            {email: 'user2@example.com', name: 'user2', password: await bcrypt.hash('password123', 10), country: 'test'},
-            {email: 'user3@example.com', name: 'user3', password: await bcrypt.hash('password123', 10), country: 'test'},
-        ])
-        
+        const insertedUsers = await User.insertMany(users)        
     
         const products = [];
         const productosEjemplo = [
@@ -83,10 +103,14 @@ const initializeDB = async () => {
                 for (let k = 0; k < numTags; k++) {
                     selectedTags.push(tags[Math.floor(Math.random() * tags.length)]._id);
                 }
+                const productName = chance.pickone(productosEjemplo);
+                const extension = obtenerExtensionImagen(productName); // Obtener extensión
+                const pictureName = `${productName.replace(/ /g, '_')}${extension}`;
+
                 products.push({
-                    product: chance.pickone(productosEjemplo), // Asigna un nombre específico y aleatorio
+                    product: productName,
                     precio: Math.floor(Math.random() * 2000) + 1, 
-                    picture: `https://example.com/producto${i}-${j}.jpg`,
+                    picture: pictureName,
                     tags: selectedTags,
                     owner: insertedUsers[i]._id,
                 });
@@ -103,10 +127,15 @@ const initializeDB = async () => {
                 for (let k = 0; k < numTags; k++) {
                     selectedTags.push(tags[Math.floor(Math.random() * tags.length)]._id);
                 }
+                const productName = chance.pickone(productosEjemplo);
+                const extension = obtenerExtensionImagen(productName); // Obtener extensión
+                const pictureName = `${productName.replace(/ /g, '_')}${extension}`;
+
+
                 products.push({
-                    product: `Producto ${i}-${j}`,
+                    product: productName,
                     precio: Math.floor(Math.random() * 2000) + 1, 
-                    picture: `https://example.com/producto${i}-${j}.jpg`,
+                    picture: pictureName,
                     tags: selectedTags,
                     owner: insertedUsers[i]._id,
                 });
@@ -121,10 +150,15 @@ const initializeDB = async () => {
                 for (let k = 0; k < numTags; k++) {
                     selectedTags.push(tags[Math.floor(Math.random() * tags.length)]._id);
                 }
+                const productName = chance.pickone(productosEjemplo);
+                const extension = obtenerExtensionImagen(productName); // Obtener extensión
+                const pictureName = `${productName.replace(/ /g, '_')}${extension}`;
+
+
                 products.push({
-                    product: `Producto ${i}-${j}`,
+                    product: productName,
                     precio: Math.floor(Math.random() * 2000) + 1, 
-                    picture: `https://example.com/producto${i}-${j}.jpg`,
+                    picture: pictureName,
                     tags: selectedTags,
                     owner: insertedUsers[i]._id,
                 });

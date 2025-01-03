@@ -12,6 +12,7 @@ export async function index(req, res, next) {
         const minPrice = req.query['min-price'] || '';
         const maxPrice = req.query['max-price'] || '';
         const productName = req.query['product-name'] || '';
+        const user = req.query['user-name'] || '';
 
         if (tag && tag !== 'todos') {
             const tagDoc = await Tag.findOne({ tagname: tag });
@@ -29,6 +30,18 @@ export async function index(req, res, next) {
         if (productName) {
             filters.product = new RegExp('^' + productName, 'i');
         }
+
+        if (user) {
+            const userId = await User.findOne({ name: { $regex: `^${user}`, $options: 'i' } });
+        
+            if (userId) {
+                filters.owner = userId._id;
+            } else {
+                console.error('User not found.');
+            }
+        }
+
+
 
         const recordsPerPage = parseInt(req.query.limit) || 25;
         const skip = parseInt(req.query.page || 1) - 1;

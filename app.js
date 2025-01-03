@@ -85,6 +85,7 @@ app.get('/user-items', sessionManager.isLogged, userItemController.index);
 
 
 app.get('/user-data', sessionManager.isLogged,userDataController.index);
+app.get('/user-user-chg-pass', sessionManager.isLogged,userDataController.index);
 
 // Rutas privadas (requieren autenticación)
 
