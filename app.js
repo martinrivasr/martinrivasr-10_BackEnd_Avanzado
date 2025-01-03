@@ -23,6 +23,7 @@ import * as apiProductController from './controllers/apicontrollers/apiProductCo
 import { validateFilters } from './middlewares/filtersMiddleware.js'
 import * as apiLoginController from './controllers/apicontrollers/apiLoginController.js'
 import * as jwtAuth from './middlewares/jwtAuthMiddleware.js'
+import * as apiUserController from './controllers/apicontrollers/apiUserController.js'
 
 await connectMongoose()
 
@@ -43,6 +44,7 @@ app.use(cookieParser())
 
 // API routes
 
+// product routes
 app.post('/api/login', apiLoginController.loginJWT)
 
 app.get('/api/products', jwtAuth.authenticateJWT , validateFilters,  apiProductController.productList)
@@ -51,6 +53,12 @@ app.get('/api/products/user/:userId', jwtAuth.authenticateJWT ,  apiProductContr
 app.post('/api/products', jwtAuth.authenticateJWT , upload.single('picture'), apiProductController.productCreation)
 app.put('/api/products/:productId', jwtAuth.authenticateJWT , upload.single('picture'), apiProductController.productUpdate)
 app.delete('/api/products/:productId', jwtAuth.authenticateJWT ,  apiProductController.productDelete)
+
+// User routes
+app.get('/api/users',  jwtAuth.authenticateJWT, apiUserController.userList)
+app.post('/api/users',  jwtAuth.authenticateJWT, apiUserController.userCreation)
+app.put('/api/users/:userId', jwtAuth.authenticateJWT, apiUserController.userUpdate)
+app.put('/api/users-change-password/:userId', jwtAuth.authenticateJWT, apiUserController.changePassword)
 
 // Website routes
 

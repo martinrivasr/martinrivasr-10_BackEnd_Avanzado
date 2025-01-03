@@ -8,7 +8,6 @@ import { buildSortCriteria } from '../../Utils/sortCriteria.js';
 
 export async function productList(req, res, next) {
     try {
-        console.log('El usuario logado es: ', req.apiUserId)
         // query template : http://localhost:3000/api/products/?tag=todos&min-price=&max-price=&product-name=Lap
         //http://localhost:3000/api/products/?tag=lifestyle&min-price=100&max-price=900&product-name=producto&sort=precio&direction=desc&page=1
 
@@ -114,7 +113,9 @@ export async function productListbyUserID(req, res, next){
 export async function productCreation(req, res, next) {
     try {
      //const userId = req.session.userID
-     const  userId=  '6730e5270cc9c61c0e489375'
+     //const  userId=  '6730e5270cc9c61c0e489375'
+     console.log('El usuario logado es: ', req.apiUserId)
+     const userId = req.apiUserId
       
      const { product, precio, picture, tags,  } = req.body;
       if (!tags || tags.length === 0) {

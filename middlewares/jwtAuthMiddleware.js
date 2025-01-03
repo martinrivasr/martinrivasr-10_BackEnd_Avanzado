@@ -18,7 +18,7 @@ export function authenticateJWT(req, res, next){
         }
         
         console.log(paylod)
-        console.log(req)
+        //console.log(req)
         req.apiUserId = paylod._id
 
         next()

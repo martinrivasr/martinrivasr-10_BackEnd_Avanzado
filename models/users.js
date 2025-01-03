@@ -46,5 +46,12 @@ userSchema.methods.comparePassword = function(candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 };
 
+userSchema.statics.list = function(filter, sort, fields){
+    const query = User.find(filter)
+    query.sort(sort)
+    query.select(fields)
+    return query.exec()
+  }
+  
 const User = mongoose.model('User', userSchema)
 export default User

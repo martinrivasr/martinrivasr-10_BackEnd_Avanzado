@@ -2,19 +2,22 @@ openapi: 3.0.3
 info:
   title: API de Nodepop
   description: |
-    Nodepop es una API diseñada para gestionar productos, usuarios y etiquetas en una plataforma de comercio.
-    Esta API proporciona operaciones CRUD para productos, admite la gestión de imágenes, aplica filtros,
-    y permite consultas por usuario.
+    Nodepop es una API diseñada para gestionar productos, usuarios y etiquetas en una plataforma de comercio. Esta API proporciona operaciones CRUD para productos, soporta manejo de imágenes, aplica filtros y permite consultas por usuario.
 
-    **Características**:
-    - Filtros avanzados para buscar productos por precio, nombre y etiquetas.
-    - Paginación y ordenamiento para grandes conjuntos de datos.
-    - Gestión de usuarios y sus productos asociados.
-    - Soporte para subir imágenes de productos.
+    **Características**:  
+    - Filtros avanzados para buscar productos por precio, nombre y etiquetas.  
+    - Paginación y ordenamiento para grandes conjuntos de datos.  
+    - Gestión de usuarios con productos asociados.  
+    - Soporte para carga de imágenes de productos.  
+    - Rutas de usuarios para gestionar información personal, cambiar contraseñas y listar usuarios.
 
-    **Ejemplo de uso**:
-    - Obtener productos filtrados: `/api/products?tag=lifestyle&min-price=100&max-price=900`.
+    **Ejemplo de Uso**:  
+    - Obtener productos filtrados: `/api/products?tag=lifestyle&min-price=100&max-price=900`.  
     - Crear un nuevo producto enviando datos en el cuerpo de la solicitud.
+    - Listar usuarios con filtros opcionales: `/api/users?country=USA`.
+    - Cambiar la contraseña de un usuario: `/api/users-change-password/{userId}` enviando las contraseñas actuales y nuevas.
+
+    
   version: 1.0.0
 servers:
   - url: http://localhost:3000
@@ -22,7 +25,7 @@ servers:
 paths:
   /api/products:
     get:
-      summary: Obtener una lista de productos
+      summary: Recuperar una lista de productos
       description: Recuperar una lista de productos basada en filtros, paginación y criterios de ordenamiento.
       parameters:
         - in: query
@@ -49,13 +52,13 @@ paths:
           name: sort
           schema:
             type: string
-          description: Campo por el cual ordenar.
+          description: Campo para ordenar.
         - in: query
           name: direction
           schema:
             type: string
             enum: [asc, desc]
-          description: Dirección del orden.
+          description: Dirección del ordenamiento.
         - in: query
           name: page
           schema:
@@ -65,7 +68,7 @@ paths:
           name: limit
           schema:
             type: integer
-          description: Cantidad de productos por página.
+          description: Número de productos por página.
         - in: query
           name: fields
           schema:
@@ -91,7 +94,7 @@ paths:
                     description: Número total de páginas.
                   currentPage:
                     type: integer
-                    description: Número de página actual.
+                    description: Número de la página actual.
     post:
       summary: Crear un nuevo producto
       description: Agregar un nuevo producto a la base de datos.
@@ -125,7 +128,7 @@ paths:
 
   /api/products/{productId}:
     get:
-      summary: Obtener un producto por ID
+      summary: Recuperar un producto por ID
       description: Obtener los detalles de un producto específico por su ID.
       parameters:
         - in: path
@@ -172,7 +175,7 @@ paths:
                   description: Imagen actualizada del producto.
                 tags:
                   type: string
-                  description: Lista actualizada de etiquetas separadas por comas.
+                  description: Lista de etiquetas actualizadas separadas por comas.
       responses:
         '200':
           description: Producto actualizado exitosamente.
@@ -184,7 +187,7 @@ paths:
           description: Producto no encontrado.
     delete:
       summary: Eliminar un producto por ID
-      description: Eliminar un producto de la base de datos usando su ID.
+      description: Eliminar un producto de la base de datos utilizando su ID.
       parameters:
         - in: path
           name: productId
@@ -200,7 +203,7 @@ paths:
 
   /api/products/user/{userId}:
     get:
-      summary: Obtener productos por ID de usuario
+      summary: Recuperar productos por ID de usuario
       description: Obtener una lista de productos creados por un usuario específico.
       parameters:
         - in: path
@@ -232,6 +235,156 @@ paths:
         '404':
           description: Usuario no encontrado.
 
+  /api/users:
+    get:
+      summary: Recuperar una lista de usuarios
+      description: Obtener una lista de usuarios con filtros y ordenamientos opcionales.
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: Filtrar por nombre de usuario.
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: Filtrar por país del usuario.
+        - in: query
+          name: sort
+          schema:
+            type: string
+          description: Campo para ordenar (por ejemplo, nombre, email, país, createdAt).
+        - in: query
+          name: fields
+          schema:
+            type: string
+          description: Campos a incluir en la respuesta, separados por comas.
+      responses:
+        '200':
+          description: Lista de usuarios.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  totalRecords:
+                    type: integer
+                    description: Número total de usuarios.
+    post:
+      summary: Crear un nuevo usuario
+      description: Agregar un nuevo usuario a la base de datos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  description: Contraseña del usuario.
+                name:
+                  type: string
+                  description: Nombre del usuario.
+                country:
+                  type: string
+                  description: País del usuario.
+      responses:
+        '201':
+          description: Usuario creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /api/users/{userId}:
+    put:
+      summary: Actualizar un usuario por ID
+      description: Actualizar los detalles de un usuario existente.
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID del usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Email actualizado del usuario.
+                name:
+                  type: string
+                  description: Nombre actualizado del usuario.
+                country:
+                  type: string
+                  description: País actualizado del usuario.
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado.
+
+  /api/users-change-password/{userId}:
+    put:
+      summary: Cambiar la contraseña de un usuario
+      description: Cambiar la contraseña de un usuario existente.
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID del usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currenPassword:
+                  type: string
+                  description: Contraseña actual del usuario.
+                newPassword:
+                  type: string
+                  description: Nueva contraseña del usuario.
+                confirmedNewPassword:
+                  type: string
+                  description: Confirmación de la nueva contraseña.
+      responses:
+        '200':
+          description: Contraseña actualizada exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: Mensaje de éxito.
+        '400':
+          description: Solicitud incorrecta (por ejemplo, las contraseñas no coinciden o la contraseña actual es incorrecta).
+        '404':
+          description: Usuario no encontrado.
+
 components:
   schemas:
     Product:
@@ -257,8 +410,32 @@ components:
         createdAt:
           type: string
           format: date-time
-          description: Fecha de creación del producto.
+          description: Fecha y hora de creación del producto.
         updatedAt:
           type: string
           format: date-time
-          description: Fecha de última actualización del producto.
+          description: Fecha y hora de la última actualización del producto.
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del usuario.
+        email:
+          type: string
+          description: Email del usuario.
+        name:
+          type: string
+          description: Nombre del usuario.
+        country:
+          type: string
+          description: País del usuario.
+        createdAt:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del usuario.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Fecha y hora de la última actualización del usuario.
