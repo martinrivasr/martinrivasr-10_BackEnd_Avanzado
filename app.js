@@ -3,6 +3,7 @@ import path from 'path'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
+import methodOverride from 'method-override'
 import imageRoutes from './routes/imageRoutes.js'
 import * as homeController  from './controllers/homecontroller.js'
 import * as headerController from './controllers/headerController.js'
@@ -42,6 +43,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(cookieParser())
 
+
 // API routes
 
 // product routes
@@ -78,13 +80,22 @@ app.all('/logout', headerController.logout);
 app.get('/', homeController.index);
 app.get('/login', loginController.index);
 app.post('/login', loginController.postLogin);
-app.get('/create-user', createUserController.index);
-app.post('/create-user', sessionManager.isLogged, createUserController.registerUser);
+app.get('/create-user', userDataController.index);
+app.post('/create-user', userDataController.createUser);
+
+// para manejar los datos del usuario
+//app.get('/user-data', sessionManager.isLogged,userDataController.index);
+app.get('/user-data', sessionManager.isLogged, userDataController.showUserData);
+app.post('/user-data-update', sessionManager.isLogged, userDataController.updateUserData);
+app.get('/user-chg-pass', sessionManager.isLogged, userDataController.showchgpass);
+app.post('/chg-pwd', userDataController.changePassword);
+
+
 app.get('/create-item', sessionManager.isLogged, createItemController.index);
 app.get('/user-items', sessionManager.isLogged, userItemController.index);
 
 
-app.get('/user-data', sessionManager.isLogged,userDataController.index);
+
 app.get('/user-user-chg-pass', sessionManager.isLogged,userDataController.index);
 
 // Rutas privadas (requieren autenticación)

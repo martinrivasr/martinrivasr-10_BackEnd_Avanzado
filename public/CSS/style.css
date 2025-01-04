@@ -409,7 +409,7 @@ body {
 }
 .user-form-container {
     max-width: 600px;
-    margin: 40px auto;
+    margin: 120px auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -611,3 +611,30 @@ body {
 .language-selector img:hover {
     transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
 }
+
+.notification {
+    border: solid 1px;
+    padding: 1rem;
+    
+  }
+
+ .notifications-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre cada producto */
+    align-items: center;
+    font-size: 18px;
+}
+
+.notification-success {
+    background-color: lightblue;
+    border-color: rgb(0, 172, 230);
+    font-size: 18px;
+  }
+  
+  .notification-error {
+    background-color: lightcoral;
+    border-color: rgb(242, 8, 8);
+    font-size: 18px;
+  }
