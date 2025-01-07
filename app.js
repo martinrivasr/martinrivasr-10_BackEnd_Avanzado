@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
 import methodOverride from 'method-override'
 import imageRoutes from './routes/imageRoutes.js'
+import { connectToRabbitMQ } from './lib/messageQueue.js';
+
 import * as homeController  from './controllers/homecontroller.js'
 import * as headerController from './controllers/headerController.js'
 import * as loginController from './controllers/loginControllers.js'
@@ -27,6 +29,7 @@ import * as jwtAuth from './middlewares/jwtAuthMiddleware.js'
 import * as apiUserController from './controllers/apicontrollers/apiUserController.js'
 
 await connectMongoose()
+await connectToRabbitMQ();
 
 const app = express()
 
@@ -43,8 +46,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(cookieParser())
 
+app.get('/test-rabbitmq', createItemController.testRabbitMQ);
 
 // API routes
+
 
 // product routes
 app.post('/api/login', apiLoginController.loginJWT)
