@@ -1,7 +1,7 @@
 
 # Nodepop - Plataforma de Venta de Artículos de Segunda Mano
 
-Nodepop es una aplicación web desarrollada para la venta de artículos de segunda mano, donde los usuarios pueden publicar, buscar y gestionar productos mediante una interfaz amigable y funcionalidades avanzadas de filtrado y paginación.
+Nodepop es una aplicación para la gestión de productos y usuarios. Esta API permite realizar operaciones CRUD con productos, soporta carga de imágenes, filtros avanzados y consultas por usuario.
 
 ## Índice
 
@@ -28,46 +28,30 @@ Nodepop es una aplicación web desarrollada para la venta de artículos de segun
 
 ## Instalación
 
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/nodepop.git
-   cd nodepop
-   ```
+1. Clona este repositorio.
+    ```bash
+    git clone <repo-url>
+    cd nodepop
+    ```
+2. Instala las dependencias.
+    ```bash
+    npm install
+    ```
+3. Configura las variables de entorno en un archivo `.env` siguiendo el ejemplo:
+    ```env
+    MONGO_URI='mongodb://127.0.0.1:27017/nodepop'
+    SESSION_SECRET=useaStrongPassword 
+    JWT_SECRET=generate_your_private_secret
+    ```
+4. Inicializa la base de datos con datos de ejemplo.
+    ```bash
+    npm run initDB
+    ```
+5. Inicia la aplicación en modo desarrollo.
+    ```bash
+    npm run dev
+    ```
 
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-
-# nvm use 18.20.4
-# npm install cross-env 
-# npm install -g nodemon
-# npm install chance
-# npm install cloudinary
-# npm install express
-# npm install debug
-# npm install http-errors
-# npm install multer
-# npm install morgan
-# npm install ejs
-# npm install express-validator
-# npm install mongoose 
-# npm install bcrypt
-# npm install express-session
-# npm install connect-mongo
-# npm install basic-auth 
-# npm install express-session 
-
-
-Crea un archivo `.env` en la raíz del proyecto con la configuración para MongoDB y otras variables necesarias, como `PORT` y `CLOUDINARY_URL` ( se deja la condiguracion para utilizar  Cloudinary para el manejo de imágenes una vez que se despliegue el proyecto).
-
-## .env
-
-en la primer llamada del programa, se debe de confirar el archivo .env.example con las variables de entorno requeridas.
-
-```js
-copy .env.example .env
-```
 ## Inicialización de la Base de Datos
 
 Para inicializar la base de datos con datos de ejemplo, ejecuta el script `initDB.js` que eliminará las colecciones existentes y cargará nuevos datos de ejemplo.
@@ -76,14 +60,13 @@ Para inicializar la base de datos con datos de ejemplo, ejecuta el script `initD
 npm run initDB
 ```
 
-Este script crea usuarios y productos de ejemplo para probar la funcionalidad de la aplicación. hay cuatro usuarios estandar para probar la aplicacion:
+Usuarios de prueba creados por defecto:
+- `admin@example.com`
+- `user1@example.com`
+- `user2@example.com`
+- `user3@example.com`
 
-admin@example.com
-user1@example.com
-user2@example.com
-user3@example.com
-
-el password por defecto para todos los usuarios es :"password123"
+Contraseña para todos: `"1234"`
 
 ## Estructura del Proyecto
 
@@ -94,79 +77,6 @@ el password por defecto para todos los usuarios es :"password123"
 - `public/` - Archivos estáticos (CSS e imágenes).
 - `views/` - Plantillas EJS para el renderizado de páginas.
 - `swaggerConfig.js` - Configuración de Swagger para la documentación de la API.
-
-## API
-base URL: http://localhost:3000/api
-
-### product List
-Get /api/products
-
-```json
-        {
-            "_id": "6730e5270cc9c61c0e48937b",
-            "product": "Auriculares",
-            "precio": 117,
-            "picture": "https://example.com/producto0-1.jpg",
-            "tags": [
-                {
-                    "_id": "6730e5260cc9c61c0e489368",
-                    "tagname": "mobile",
-                    "__v": 0,
-                    "createdAt": "2024-11-10T16:53:58.983Z",
-                    "updatedAt": "2024-11-10T16:53:58.983Z"
-                }
-            ],
-            "owner": {
-                "_id": "6730e5270cc9c61c0e48936a",
-                "email": "liiwci@pugre.er",
-                "name": "Ann Reeves",
-                "password": "$2b$10$6fhjTDJYtmDHJDfmJbl0oOQxY5GNVgiP2.PLvXdsBJsKoihnKWLuS",
-                "country": "New Caledonia",
-                "__v": 0,
-                "createdAt": "2024-11-10T16:53:59.216Z",
-                "updatedAt": "2024-11-10T16:53:59.216Z"
-            },
-            "__v": 0,
-            "createdAt": "2024-11-10T16:53:59.505Z",
-            "updatedAt": "2024-11-10T16:53:59.505Z"
-        }
-```
-### Create list
-Get /api/products
-
-```json
-{
-    "result": {
-        "product": "monitor",
-        "precio": 9999,
-        "picture": "picture-1735783499930-monitor.jpg",
-        "tags": [
-            "6730e5260cc9c61c0e489367",
-            "6730e5260cc9c61c0e489365"
-        ],
-        "owner": "6730e5270cc9c61c0e489375",
-        "_id": "6775f44bfb5a62e345ed45df",
-        "createdAt": "2025-01-02T02:05:00.044Z",
-        "updatedAt": "2025-01-02T02:05:00.044Z",
-        "__v": 0
-    }
-}
-```
-
-## productlist by product ID
-Get api/products/:productId
-
-## productlist by User ID
-Get api/products/user/:userId
-
-## create a product
-Post /api/products
-
-## update a product
-Put /api/products/:productId
-
-## Delete a product
-Delete /api/products/:productId
 
 ## Uso
 
@@ -180,7 +90,7 @@ La aplicación permite listar productos con opciones de paginación y filtros av
 
 Ejemplo de URL de búsqueda:
 ```
-http://localhost:3000/?tag=mobile&name=ip&price=50-&skip=0&limit=2&sort=price
+http://localhost:3000/api/products?tag=mobile&name=ip&price=50-&skip=0&limit=2&sort=price
 ```
 
 ### Registro y Autenticación
@@ -197,25 +107,32 @@ Cada usuario puede crear, ver y eliminar sus propios productos. Solo pueden gest
 - Foto
 - Tags (uno o varios)
 
-## Documentación de la API
+## API Endpoints
 
-Swagger se ha configurado para documentar la API de manera interactiva. Puedes acceder a la documentación en:
+### Productos
+- **GET /api/products**: Lista de productos con filtros opcionales.
+- **POST /api/products**: Crea un nuevo producto.
+- **PUT /api/products/:productId**: Actualiza un producto existente.
+- **DELETE /api/products/:productId**: Elimina un producto por su ID.
 
-```
-http://localhost:3000/api-docs
-```
+### Usuarios
+- **POST /api/users**: Crea un nuevo usuario.
+- **PUT /api/users/:userId**: Actualiza un usuario existente.
+- **PUT /api/users-change-password/:userId**: Cambia la contraseña de un usuario.
 
-Esta documentación incluye todos los endpoints de la aplicación, como:
+### Swagger
 
-- **GET /** - Página de inicio con lista de productos.
-- **GET /login** - Formulario de inicio de sesión.
-- **POST /login** - Inicio de sesión.
-- **GET /create-user** - Formulario de registro de usuario.
-- **POST /create-user** - Registro de usuario.
-- **GET /create-item** - Formulario para crear un producto.
-- **POST /create-item** - Creación de un nuevo producto.
-- **GET /user-items** - Listado de productos del usuario logueado.
-- **GET /user-data** - Datos del usuario logueado.
+La documentación de la API está disponible en `/api-doc`.
+
+## Tareas en Segundo Plano
+
+Nodepop utiliza RabbitMQ para manejar tareas en segundo plano, como la creación de miniaturas de imágenes.
+
+1. Asegúrate de tener RabbitMQ instalado y en ejecución.
+    ```bash
+    docker run -d --hostname=mq --name mq -p 8080:15672 -p 5672:5672 rabbitmq:3-management
+    ```
+2. Configura la conexión a RabbitMQ en el archivo `messageQueue.js`.
 
 ## Calidad de Código
 
@@ -227,10 +144,6 @@ npx eslint .
 
 Se recomienda solucionar los errores y advertencias que ESLint reporte para mantener la consistencia y calidad del código.
 
-## Notas adicionales
+## Licencia
 
-- La aplicación utiliza autenticación basada en sesiones.
-- Cada usuario solo puede ver o gestionar sus propios productos.
-- Para la subida de imágenes se recomienda utilizar Cloudinary (configurar `CLOUDINARY_URL` en `.env`).
-
-
+MIT
