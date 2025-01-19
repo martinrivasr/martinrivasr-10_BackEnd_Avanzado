@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import createError from 'http-errors'
 import Product from '../../models/products.js'
 import Tag from '../../models/tag.js';
 import User from '../../models/users.js';
@@ -68,7 +69,7 @@ export async function productListbyProductID(req, res, next){
         return res.status(400).json({ error: 'Invalid product ID format' });
     }
 
-    console.log("product id : ", productId)
+    console.log("Búsqueda de product id : ", productId)
 
     const product = await Product.findById(productId)
         .select(fields)
@@ -188,10 +189,22 @@ export async function productUpdate(req, res, next){
 
 export async function productDelete(req, res, next){
     try {
+        const userId = req.apiUserId
         const productId = req.params.productId
-
+        
+        const product = await Product.findOne({  _id: productId })
+        
+        if(!product){
+            console.warn(`WARNING - el usuario ${userId} esta intentando borrar un producto inexistente`)
+            return next(createError(404))
+        }
+        
+        if (product.owner.toString() !== userId){
+        console.warn(`WARNING - el usuario ${userId} esta intentando borrar un producto de otro usuario`)
+            return next(createError(401))
+        }
         await Product.deleteOne({ _id: productId })
-
+        
         res.json()
     } catch (error) {
         next(error)

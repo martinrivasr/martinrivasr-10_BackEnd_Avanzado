@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import createError from 'http-errors'
 
 export function authenticateJWT(req, res, next){
-
+    console.log('Encabezado Authorization:', req.get('Authorization')); // DEBUG
     const tokenJWT = req.get('Authorization')?.replace('Bearer ', '') || req.body.jwt || req.query.jwt;
 
     

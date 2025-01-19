@@ -37,12 +37,12 @@ export async function deleteProduct(req, res, next) {
   
    
     if (!product) {
-      console.warn(`WARNING - el usuario ${userId} está intentando eliminar un agente inexistente`)
+      console.warn(`WARNING - el usuario ${userId} está intentando eliminar un producto inexistente`)
       return next(createError(404, 'Not found'))
     }
   
     if (product.owner.toString() !== userId) {
-      console.warn(`WARNING - el usuario ${userId} está intentando eliminar un agente de otro usuario`)
+      console.warn(`WARNING - el usuario ${userId} está intentando eliminar un producto de otro usuario`)
       return next(createError(401, 'Not authorized'))
     }
   

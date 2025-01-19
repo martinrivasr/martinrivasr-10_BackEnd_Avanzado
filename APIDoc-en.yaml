@@ -25,6 +25,8 @@ paths:
   /api/products:
     get:
       summary: Retrieve a list of products
+      security:
+        - BearerAuth: []
       description: Retrieve a list of products based on filters, pagination, and sorting criteria.
       parameters:
         - in: query
@@ -438,3 +440,13 @@ components:
           type: string
           format: date-time
           description: User last update timestamp.
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  security:
+    - BearerAuth: []
+

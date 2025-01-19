@@ -33,11 +33,24 @@ await connectToRabbitMQ();
 
 const app = express()
 
+app.use((req, res, next) => {
+    console.log('Solicitud entrante:');
+    console.log(`Método: ${req.method}`);
+    console.log(`URL: ${req.originalUrl}`);
+    console.log('Encabezados:', req.headers);
+    next();
+});
+
 app.locals.appName = 'Nodepop.!!!'
 
 //vistas de ejs
 app.set('views','views') // views folder
 app.set('view engine', 'ejs')
+
+
+// Middleware para registrar las solicitudes y los encabezados
+
+
 
 
 app.use(logger('dev'))
@@ -62,7 +75,7 @@ app.put('/api/products/:productId', jwtAuth.authenticateJWT , upload.single('pic
 app.delete('/api/products/:productId', jwtAuth.authenticateJWT ,  apiProductController.productDelete)
 
 // User routes
-app.get('/api/users',  jwtAuth.authenticateJWT, apiUserController.userList)
+//app.get('/api/users',  jwtAuth.authenticateJWT, apiUserController.userList)
 app.post('/api/users',  jwtAuth.authenticateJWT, apiUserController.userCreation)
 app.put('/api/users/:userId', jwtAuth.authenticateJWT, apiUserController.userUpdate)
 app.put('/api/users-change-password/:userId', jwtAuth.authenticateJWT, apiUserController.changePassword)
