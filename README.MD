@@ -30,7 +30,7 @@ Nodepop es una aplicación para la gestión de productos y usuarios. Esta API pe
 
 1. Clona este repositorio.
     ```bash
-    git clone <repo-url>
+    git clone https://github.com/martinrivasr/martinrivasr-10_BackEnd_Avanzado.git
     cd nodepop
     ```
 2. Instala las dependencias.
